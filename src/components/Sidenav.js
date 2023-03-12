@@ -98,22 +98,46 @@ function SideNav() {
               },
             }}
           >
-            <MenuItem component={<Link to="/ame" />} icon={<AmeIcon />}>
+            <MenuItem
+              onClick={() => toggleSidebar()}
+              component={<Link to="/ame" />}
+              icon={<AmeIcon />}
+            >
               Amelia Watson
             </MenuItem>
-            <MenuItem component={<Link to="/gura" />} icon={<GuraIcon />}>
+            <MenuItem
+              onClick={() => toggleSidebar()}
+              component={<Link to="/gura" />}
+              icon={<GuraIcon />}
+            >
               Gawr Gura
             </MenuItem>
-            <MenuItem component={<Link to="/irys" />} icon={<IrysIcon />}>
+            <MenuItem
+              onClick={() => toggleSidebar()}
+              component={<Link to="/irys" />}
+              icon={<IrysIcon />}
+            >
               IRyS
             </MenuItem>
-            <MenuItem component={<Link to="/calli" />} icon={<CalliIcon />}>
+            <MenuItem
+              onClick={() => toggleSidebar()}
+              component={<Link to="/calli" />}
+              icon={<CalliIcon />}
+            >
               Mori Calliope
             </MenuItem>
-            <MenuItem component={<Link to="/ina" />} icon={<InaIcon />}>
+            <MenuItem
+              onClick={() => toggleSidebar()}
+              component={<Link to="/ina" />}
+              icon={<InaIcon />}
+            >
               Ninomae Ina'nis
             </MenuItem>
-            <MenuItem component={<Link to="/kronii" />} icon={<KroniiIcon />}>
+            <MenuItem
+              onClick={() => toggleSidebar()}
+              component={<Link to="/kronii" />}
+              icon={<KroniiIcon />}
+            >
               Ouro Kronii
             </MenuItem>
           </SubMenu>
