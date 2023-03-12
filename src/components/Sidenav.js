@@ -1,6 +1,16 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
+import { Routes, Route } from "react-router-dom";
+import { Gura } from "../pages/Gura";
+import { Ame } from "../pages/Ame";
+import { Calli } from "../pages/Calli";
+import { Ina } from "../pages/Ina";
+import { Irys } from "../pages/Irys";
+import { Kronii } from "../pages/Kronii";
+import { Home } from "../pages/Home";
+
 import {
   Sidebar,
   Menu,
@@ -88,12 +98,24 @@ function SideNav() {
               },
             }}
           >
-            <MenuItem icon={<AmeIcon />}>Amelia Watson</MenuItem>
-            <MenuItem icon={<GuraIcon />}>Gawr Gura</MenuItem>
-            <MenuItem icon={<IrysIcon />}>IRyS</MenuItem>
-            <MenuItem icon={<CalliIcon />}>Mori Calliope</MenuItem>
-            <MenuItem icon={<InaIcon />}>Ninomae Ina'nis</MenuItem>
-            <MenuItem icon={<KroniiIcon />}>Ouro Kronii</MenuItem>
+            <MenuItem component={<Link to="/ame" />} icon={<AmeIcon />}>
+              Amelia Watson
+            </MenuItem>
+            <MenuItem component={<Link to="/gura" />} icon={<GuraIcon />}>
+              Gawr Gura
+            </MenuItem>
+            <MenuItem component={<Link to="/irys" />} icon={<IrysIcon />}>
+              IRyS
+            </MenuItem>
+            <MenuItem component={<Link to="/calli" />} icon={<CalliIcon />}>
+              Mori Calliope
+            </MenuItem>
+            <MenuItem component={<Link to="/ina" />} icon={<InaIcon />}>
+              Ninomae Ina'nis
+            </MenuItem>
+            <MenuItem component={<Link to="/kronii" />} icon={<KroniiIcon />}>
+              Ouro Kronii
+            </MenuItem>
           </SubMenu>
           <SubMenu
             label="Hololive ID"
@@ -141,11 +163,21 @@ function SideNav() {
           <MenuItem disabled></MenuItem>
         </Menu>
       </Sidebar>
+
       <main>
         <IconButton aria-label="Example" onClick={() => toggleSidebar()}>
           <img src={CoverIcon} style={{ borderRadius: "50%", width: "75px" }} />
         </IconButton>
       </main>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/gura" element={<Gura />} />
+        <Route path="/ame" element={<Ame />} />
+        <Route path="/calli" element={<Calli />} />
+        <Route path="/ina" element={<Ina />} />
+        <Route path="/irys" element={<Irys />} />
+        <Route path="/kronii" element={<Kronii />} />
+      </Routes>
     </div>
   );
 }
