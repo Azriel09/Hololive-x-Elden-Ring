@@ -173,7 +173,7 @@ function SideNav() {
             }}
           >
             <MenuItem icon={<AkiroseIcon />}>Aki Rosenthal</MenuItem>
-            <MenuItem icon={<LamyIcon />}>Hakui Koyori</MenuItem>
+            <MenuItem icon={<KoyoriIcon />}>Hakui Koyori</MenuItem>
             <MenuItem icon={<LunaIcon />}>Himemori Luna</MenuItem>
             <MenuItem icon={<OkayuIcon />}>Nekomata Okayu</MenuItem>
             <MenuItem icon={<ChloeIcon />}>Sakamata Chloe</MenuItem>
@@ -183,6 +183,7 @@ function SideNav() {
             <MenuItem icon={<BotanIcon />}>Shishiro Botan</MenuItem>
             <MenuItem icon={<LuiIcon />}>Takane Lui</MenuItem>
             <MenuItem icon={<PekoraIcon />}>Usada Pekora</MenuItem>
+            <MenuItem icon={<LamyIcon />}>Yukihana Lamy</MenuItem>
           </SubMenu>
           <MenuItem disabled></MenuItem>
         </Menu>
