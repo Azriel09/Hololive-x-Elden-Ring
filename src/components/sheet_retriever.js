@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Selections from "./selections";
+
 import "./css/loading.css";
+import Timestamps from "./timestamps";
 
 export default function GetData(props) {
   const [loading, setLoading] = useState(false);
@@ -68,10 +70,7 @@ export default function GetData(props) {
           stream={streams}
           link={links}
           death={deaths}
-        />
-        {/* {streams.map((stream) => {
-        return <li key={stream}>{stream}</li>;
-      })} */}
+        ></Selections>
       </div>
     );
   }
