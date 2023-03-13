@@ -8,20 +8,57 @@ import Loading from "./loading";
 
 export default function Selections(props) {
   const [selected, setSelected] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [timestamps, setTimestamps] = useState([]);
+  const [killers, setKillers] = useState([]);
   const streams = props.stream;
   const links = [];
   const deaths = props.death;
   props.link.forEach((x) => links.push(x + "?autoplay=1"));
-
+  // console.log(props.name + (+[selected] + 1));
   useEffect(() => {
     const sheetID = "1RbmeWv7zdmLIvQoOiKZYOkHlcMfBsMxs7nj5C2nCjYg";
     const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=${
-      `${props.name}`[selected] + 1
+      props.name + (+[selected] + 1)
     }`;
-    console.log(props.name + (+[selected] + 1));
+    fetch(sheetURL)
+      .then((response) => response.text())
+      .then((csvText) => handleResponse(csvText))
+      .catch((err) => {
+        console.log(err.message);
+      });
   }, [selected]);
+  function handleResponse(csvText) {
+    let sheetObjects = csvToObjects(csvText);
+  }
+  function csvToObjects(csv) {
+    const csvRows = csv.split("\n");
+    const propertyNames = csvSplit(csvRows[0]);
+    let objects = [];
+    let timestamp = [];
+    let killer = [];
 
+    for (let i = 0, max = csvRows.length; i < max; i++) {
+      let thisObject = {};
+      let row = csvSplit(csvRows[i]);
+      for (let j = 0, max = row.length; j < max; j++) {
+        thisObject[propertyNames[j]] = row[j];
+        if (j === 0) {
+          timestamp.push(row[j]);
+        } else {
+          killer.push(row[j]);
+        }
+      }
+
+      objects.push(thisObject);
+    }
+    setTimestamps(timestamp);
+    setKillers(killer);
+  }
+
+  function csvSplit(row) {
+    return row.split(",").map((val) => val.substring(1, val.length - 1));
+  }
+  console.log(timestamps);
   return (
     <div>
       <FormControl fullWidth sx={{ display: "block", marginBottom: "10px" }}>
@@ -60,6 +97,13 @@ export default function Selections(props) {
       ) : (
         <Iframe url="" width="1000px" height="500px" />
       )}
+      {timestamps.map((timestamp, index) => {
+        return (
+          <li key={index} value={index}>
+            {timestamp}
+          </li>
+        );
+      })}
     </div>
   );
 }
