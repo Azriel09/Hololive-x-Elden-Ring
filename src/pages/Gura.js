@@ -1,5 +1,6 @@
 import React from "react";
 import GetData from "../components/sheet_retriever";
+
 export function Gura() {
   return (
     <div>

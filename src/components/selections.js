@@ -8,11 +8,12 @@ import Loading from "./loading";
 
 export default function Selections(props) {
   const [selected, setSelected] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [change, setChange] = useState(false);
   const streams = props.stream;
-  const links = props.link;
+  const links = [];
   const deaths = props.death;
+  props.link.forEach((x) => links.push(x + "?autoplay=1"));
 
   useEffect(() => {}, [selected]);
   return (

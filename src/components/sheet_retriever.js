@@ -7,10 +7,9 @@ export default function GetData(props) {
   const [streams, setStreams] = useState([]);
   const [deaths, setDeaths] = useState([]);
   const [links, setLinks] = useState([]);
-  const sheedID = "1RbmeWv7zdmLIvQoOiKZYOkHlcMfBsMxs7nj5C2nCjYg";
-  const sheetName = encodeURIComponent("Ame1");
-  const sheetURL = `https://docs.google.com/spreadsheets/d/${sheedID}/gviz/tq?tqx=out:csv&sheet=${`All_${props.name}`}`;
-
+  const sheetID = "1RbmeWv7zdmLIvQoOiKZYOkHlcMfBsMxs7nj5C2nCjYg";
+  const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=${`All_${props.name}`}`;
+  console.log(props.name);
   useEffect(() => {
     setLoading(true);
     fetch(sheetURL)
