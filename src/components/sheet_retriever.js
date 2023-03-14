@@ -11,7 +11,7 @@ export default function GetData(props) {
   const [links, setLinks] = useState([]);
   const sheetID = "1RbmeWv7zdmLIvQoOiKZYOkHlcMfBsMxs7nj5C2nCjYg";
   const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=${`All_${props.name}`}`;
-  console.log(props.name);
+
   useEffect(() => {
     setLoading(true);
     fetch(sheetURL)
