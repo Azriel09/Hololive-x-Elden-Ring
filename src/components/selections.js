@@ -10,6 +10,7 @@ import Loading from "./loading";
 import Slider from "@mui/material/Slider";
 
 export default function Selections(props) {
+  const ref = React.createRef();
   const [selected, setSelected] = useState("");
   const [timestamps, setTimestamps] = useState([]);
   const [showDeaths, setShowDeaths] = useState(false);
@@ -18,7 +19,7 @@ export default function Selections(props) {
   const [firstRun, setFirstRun] = useState(true);
   const [killers, setKillers] = useState([]);
   const [videoID, setvideoID] = useState("");
-  const [url, setURL] = useState("");
+
   const [max, setMax] = useState();
   const [death, setDeath] = useState(0);
   const [permaURL, setpermaURL] = useState("");
@@ -94,7 +95,7 @@ export default function Selections(props) {
     setSliderData(objects);
     setSelected(e);
     setpermaURL(links[e].replace("watch?v=", "embed/"));
-    setURL(links[e].replace("watch?v=", "embed/"));
+
     getID(e);
   }
 
@@ -106,15 +107,9 @@ export default function Selections(props) {
     return sliderData.map((mark) => mark.label);
   }
   function valueLabelFormat(value) {
-    return sliderData.findIndex((mark) => mark.value === value) + 1;
+    return sliderData.findIndex((mark) => mark.value === value) + 1 + " Deaths";
   }
 
-  const sliderChange = (e) => {
-    setDeath(e);
-
-    setURL(permaURL + `&t=${e}`);
-    console.log(url, e);
-  };
   return (
     <div>
       <FormControl fullWidth sx={{ display: "block", marginBottom: "10px" }}>
@@ -153,13 +148,21 @@ export default function Selections(props) {
           }}
         >
           <ReactPlayer
-            url={url}
-            width="1000px"
-            height="500px"
+            ref={ref}
+            url={permaURL}
             playing
             controls
+            width="1000px"
+            height="562.5px"
           />
-          <Box sx={{ width: 1000 }}>
+          <Box
+            sx={{
+              width: 1000,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <Slider
               aria-label="Restricted values"
               valueLabelFormat={valueLabelFormat}
@@ -167,13 +170,13 @@ export default function Selections(props) {
               step={null}
               min={0}
               max={max}
-              onChange={(e) => sliderChange(e.target.value)}
+              onChange={(e) => ref.current.seekTo(e.target.value)}
               valueLabelDisplay="auto"
               marks={sliderData}
               sx={{
-                width: "1000",
+                width: "980px",
                 "& .MuiSlider-mark": {
-                  backgroundColor: "#bfbfbf",
+                  backgroundColor: "yellow",
                   height: 15,
                   width: "2px",
                   borderRadius: "1px",
