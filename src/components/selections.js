@@ -12,20 +12,15 @@ import Slider from "@mui/material/Slider";
 export default function Selections(props) {
   const ref = React.createRef();
   const [selected, setSelected] = useState("");
-  const [timestamps, setTimestamps] = useState([]);
-  const [showDeaths, setShowDeaths] = useState(false);
-  const [played, setPlayed] = useState(0);
   const [sliderData, setSliderData] = useState([]);
-  const [firstRun, setFirstRun] = useState(true);
   const [killers, setKillers] = useState([]);
-  const [videoID, setvideoID] = useState("");
-
   const [max, setMax] = useState();
-  const [death, setDeath] = useState(0);
   const [permaURL, setpermaURL] = useState("");
+  const [totalDeaths, setTotalDeaths] = useState();
   const streams = props.stream;
-  const links = [];
+  const links = props.link;
   const deaths = props.death;
+
   props.link.forEach((x) => links.push(x));
   // console.log(props.name + (+[selected] + 1));
 
@@ -80,7 +75,6 @@ export default function Selections(props) {
       let a = hms.split(":");
       const totalSeconds = +a[0] * 60 * 60 + +a[1] * 60 + +a[2];
       tempo.value = Number(totalSeconds);
-      tempo.label = row[1];
       objects.push(tempo);
       for (let j = 0, max = row.length; j < max; j++) {
         if (j === 0) {
@@ -90,7 +84,7 @@ export default function Selections(props) {
         }
       }
     }
-    setTimestamps(timestamp);
+
     setKillers(killer);
     setSliderData(objects);
     setSelected(e);
@@ -107,7 +101,9 @@ export default function Selections(props) {
     return sliderData.map((mark) => mark.label);
   }
   function valueLabelFormat(value) {
-    return sliderData.findIndex((mark) => mark.value === value) + 1 + " Deaths";
+    let index = sliderData.findIndex((mark) => mark.value === value);
+    setTotalDeaths(sliderData.length);
+    return killers[index];
   }
 
   return (
@@ -161,22 +157,25 @@ export default function Selections(props) {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              marginTop: "30px",
             }}
           >
             <Slider
               aria-label="Restricted values"
               valueLabelFormat={valueLabelFormat}
               getAriaValueText={valuetext}
+              valueLabelDisplay="on"
               step={null}
+              defaultValue={0}
               min={0}
               max={max}
-              onChange={(e) => ref.current.seekTo(e.target.value)}
-              valueLabelDisplay="auto"
+              onChange={(e) => ref.current.seekTo(e.target.value - 2)}
               marks={sliderData}
               sx={{
+                color: "rgba(0,0,0,0)",
                 width: "980px",
                 "& .MuiSlider-mark": {
-                  backgroundColor: "yellow",
+                  backgroundColor: "red",
                   height: 15,
                   width: "2px",
                   borderRadius: "1px",
@@ -185,6 +184,11 @@ export default function Selections(props) {
                     backgroundColor: "red",
                   },
                 },
+                "& .MuiSlider-thumb": {
+                  color: "black",
+                  height: 20,
+                  width: "2px",
+                },
               }}
             />
           </Box>
@@ -192,16 +196,6 @@ export default function Selections(props) {
       ) : (
         <Iframe url="" width="1000px" height="500px" />
       )}
-
-      {/* {selected || selected === 0
-        ? timestamps.map((timestamp, index) => {
-            return (
-              <div key={index} value={index} style={{ display: "inline" }}>
-                {timestamp}
-              </div>
-            );
-          })
-        : null} */}
     </div>
   );
 }
