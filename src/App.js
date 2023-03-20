@@ -1,15 +1,14 @@
 import "./App.css";
-import useGoogleSheets from "use-google-sheets";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Test from "./test";
 import SideNav from "./components/Sidenav";
 
 function App() {
   return (
-    <>
+    <div>
       <Test />
       <SideNav />
-    </>
+    </div>
   );
 }
 

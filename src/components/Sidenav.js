@@ -3,14 +3,17 @@ import { Link } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import { Routes, Route } from "react-router-dom";
-import { Gura } from "../pages/Gura";
-import { Ame } from "../pages/Ame";
-import { Calli } from "../pages/Calli";
-import { Ina } from "../pages/Ina";
-import { Irys } from "../pages/Irys";
-import { Kronii } from "../pages/Kronii";
-import { Home } from "../pages/Home";
-
+import CoverIcon from "../images/cover-icon.png";
+import { useLocation } from "react-router-dom";
+import {
+  Ame,
+  Calli,
+  Gura,
+  Ina,
+  Irys,
+  Kronii,
+  Home,
+} from "../pages/talent-pages";
 import {
   Sidebar,
   Menu,
@@ -19,7 +22,7 @@ import {
   SubMenu,
   menuClasses,
 } from "react-pro-sidebar";
-import CoverIcon from "../images/cover-icon.png";
+import "./css/sidenav.css";
 import {
   GuraIcon,
   AmeIcon,
@@ -45,13 +48,16 @@ import {
 
 function SideNav() {
   const { toggleSidebar } = useProSidebar();
+  const path = useLocation().pathname;
+  const location = path.split("/")[1];
 
   return (
-    <div style={{ display: "flex", height: "100%" }}>
+    <div className={"sidenav " + location}>
       <Sidebar
         backgroundColor="rgba(28, 29, 33, 1)"
         breakPoint="always"
         width="350px"
+        style={{ borderRightWidth: "0" }}
       >
         <Menu
           menuItemStyles={{
@@ -189,11 +195,14 @@ function SideNav() {
         </Menu>
       </Sidebar>
 
-      <main>
+      <div style={{ height: "100px", display: "inline" }}>
         <IconButton aria-label="Example" onClick={() => toggleSidebar()}>
-          <img src={CoverIcon} style={{ borderRadius: "50%", width: "75px" }} />
+          <img
+            src={CoverIcon}
+            style={{ borderRadius: "50%", width: "75px", height: "75px" }}
+          />
         </IconButton>
-      </main>
+      </div>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/gura" element={<Gura />} />

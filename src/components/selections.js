@@ -8,6 +8,9 @@ import MenuItem from "@mui/material/MenuItem";
 import Iframe from "react-iframe";
 import Loading from "./loading";
 import Slider from "@mui/material/Slider";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import ame from "../images/bg/ame.jpg";
 
 export default function Selections(props) {
   const ref = React.createRef();
@@ -108,8 +111,8 @@ export default function Selections(props) {
 
   return (
     <div>
-      <FormControl fullWidth sx={{ display: "block", marginBottom: "10px" }}>
-        <InputLabel id="demo-simple-select-helper-label">
+      <FormControl fullWidth sx={{ marginBottom: "20px" }}>
+        <InputLabel sx={{ color: "white" }} id="demo-simple-select-label">
           Select Stream
         </InputLabel>
         <Select
@@ -119,10 +122,10 @@ export default function Selections(props) {
           label="Select Stream"
           onChange={(e) => handleChange(e.target.value)}
           sx={{
-            backgroundColor: "rgba(255, 255, 255, 01)",
-            border: "3px solid lightblue",
+            backgroundColor: "#2e2e2e",
             width: "175px",
             height: "60px",
+            color: "rgb(220, 220, 220)",
           }}
         >
           {streams.map((stream, index) => {
@@ -150,6 +153,7 @@ export default function Selections(props) {
             controls
             width="1000px"
             height="562.5px"
+            style={{ border: "1px gray solid", borderRadius: "10px" }}
           />
           <Box
             sx={{
@@ -173,11 +177,12 @@ export default function Selections(props) {
               marks={sliderData}
               sx={{
                 color: "rgba(0,0,0,0)",
+                // backgroundColor: "#323233",
                 width: "980px",
                 "& .MuiSlider-mark": {
                   backgroundColor: "red",
-                  height: 15,
-                  width: "2px",
+                  height: 17,
+                  width: "1px",
                   borderRadius: "1px",
                   "&.MuiSlider-markActive": {
                     opacity: 1,
@@ -185,16 +190,21 @@ export default function Selections(props) {
                   },
                 },
                 "& .MuiSlider-thumb": {
-                  color: "black",
-                  height: 20,
-                  width: "2px",
+                  color: "white",
+                  height: 25,
+                  width: "3px",
                 },
               }}
             />
           </Box>
         </div>
       ) : (
-        <Iframe url="" width="1000px" height="500px" />
+        <ReactPlayer
+          url=""
+          width="1000px"
+          height="562.5px"
+          style={{ border: "1px gray solid", borderRadius: "10px" }}
+        />
       )}
     </div>
   );
