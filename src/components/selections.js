@@ -237,7 +237,7 @@ export default function Selections(props) {
                 npc && {
                   "& .MuiSlider-valueLabel": {
                     backgroundColor: "green",
-                    color: "black",
+                    color: "white",
                   },
                 },
               ]}

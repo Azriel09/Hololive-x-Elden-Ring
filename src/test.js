@@ -8,11 +8,5 @@ export default function Test() {
     killer: ["k1", "k2", "k3"],
   };
   const last = object.killer[object.killer.length - 1];
-  return (
-    <div className="gg" cite="gg">
-      <a onClick={(e) => console.log(object.killer[-1])} value={"gg"}>
-        GGG
-      </a>
-    </div>
-  );
+  return <div className="gg" cite="gg"></div>;
 }
