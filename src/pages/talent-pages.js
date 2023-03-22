@@ -8,7 +8,14 @@ export function Ame() {
   const { toggleSidebar } = useProSidebar();
   return (
     <div className="talent">
-      <div style={{ height: "100px", display: "flex", flexDirection: "row" }}>
+      <div
+        style={{
+          height: "100px",
+          display: "flex",
+          flexDirection: "row",
+          marginBottom: "20px",
+        }}
+      >
         <IconButton aria-label="Example" onClick={() => toggleSidebar()}>
           <img
             src={CoverIcon}
