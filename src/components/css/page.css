@@ -7,3 +7,11 @@ h1 {
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   letter-spacing: 3px;
 }
+
+.talent {
+  background-color: rgba(33, 31, 31, 0.5);
+  width: 1000px;
+  height: 85vh;
+  padding: 0 25px 25px 25px;
+  border-radius: 0px 20px 20px;
+}

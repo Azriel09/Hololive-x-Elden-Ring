@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Selections from "./selections";
-
 import "./css/loading.css";
 import Timestamps from "./timestamps";
 

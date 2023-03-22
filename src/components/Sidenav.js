@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
+
 import { Routes, Route } from "react-router-dom";
-import CoverIcon from "../images/cover-icon.png";
+
 import { useLocation } from "react-router-dom";
 import {
   Ame,
@@ -195,14 +195,6 @@ function SideNav() {
         </Menu>
       </Sidebar>
 
-      <div style={{ height: "100px", display: "inline" }}>
-        <IconButton aria-label="Example" onClick={() => toggleSidebar()}>
-          <img
-            src={CoverIcon}
-            style={{ borderRadius: "50%", width: "75px", height: "75px" }}
-          />
-        </IconButton>
-      </div>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/gura" element={<Gura />} />
