@@ -136,7 +136,7 @@ export default function Selections(props) {
           <Box sx={{ display: "flex", flexDirection: "row" }}>
             <FormControl
               fullWidth
-              sx={{ marginBottom: "20px", width: "350px" }}
+              sx={{ marginBottom: "20px", width: "300px" }}
             >
               <InputLabel sx={{ color: "white" }} id="demo-simple-select-label">
                 Select Stream
@@ -212,12 +212,16 @@ export default function Selections(props) {
 
                       "& .MuiSlider-mark": {
                         backgroundColor: "red",
-                        height: 17,
+                        height: "17px",
                         width: "1px",
                         borderRadius: "1px",
+                        "&:hover": {
+                          width: "2px",
+                          height: "20px",
+                        },
                       },
                       "& .MuiSlider-thumb": {
-                        color: "white",
+                        color: "#b9b9bb",
                         height: 25,
                         width: "3px",
                       },
