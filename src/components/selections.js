@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ReactPlayer from "react-player";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -8,11 +8,17 @@ import MenuItem from "@mui/material/MenuItem";
 import Iframe from "react-iframe";
 import Loading from "./loading";
 import Slider from "@mui/material/Slider";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-import ame from "../images/bg/ame.jpg";
+import Link from "@mui/material/Link";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormLabel from "@mui/material/FormLabel";
+import None from "./none";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
 export default function Selections(props) {
+  const [selectedValue, setSelectedValue] = React.useState("a");
   const ref = React.createRef();
   const [selected, setSelected] = useState("");
   const [sliderData, setSliderData] = useState([]);
@@ -20,12 +26,11 @@ export default function Selections(props) {
   const [max, setMax] = useState();
   const [permaURL, setpermaURL] = useState("");
   const [totalDeaths, setTotalDeaths] = useState();
+  const [boss, setBoss] = useState(false);
+  const [npc, setNPC] = useState(false);
   const streams = props.stream;
   const links = props.link;
   const deaths = props.death;
-
-  props.link.forEach((x) => links.push(x));
-  // console.log(props.name + (+[selected] + 1));
 
   const handleChange = (e) => {
     const sheetID = "1RbmeWv7zdmLIvQoOiKZYOkHlcMfBsMxs7nj5C2nCjYg";
@@ -87,13 +92,11 @@ export default function Selections(props) {
         }
       }
     }
-
+    getID(e);
     setKillers(killer);
     setSliderData(objects);
     setSelected(e);
     setpermaURL(links[e].replace("watch?v=", "embed/"));
-
-    getID(e);
   }
 
   function csvSplit(row) {
@@ -106,8 +109,35 @@ export default function Selections(props) {
   function valueLabelFormat(value) {
     let index = sliderData.findIndex((mark) => mark.value === value);
     setTotalDeaths(sliderData.length);
-    return killers[index];
+    try {
+      if (killers[index].includes("Boss")) {
+        let death = killers[index].replace("Boss", "");
+        return death;
+      } else if (killers[index].includes("NPC")) {
+        let death = killers[index].replace("NPC", "");
+        return death;
+      } else {
+        return killers[index];
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
+
+  const checkBoss = (e) => {
+    let index = sliderData.findIndex((mark) => mark.value === e.target.value);
+    ref.current.seekTo(e.target.value - 2);
+    if (killers[index].includes("Boss")) {
+      setBoss(true);
+      setNPC(false);
+    } else if (killers[index].includes("NPC")) {
+      setNPC(true);
+      setBoss(false);
+    } else {
+      setBoss(false);
+      setNPC(false);
+    }
+  };
 
   return (
     <div>
@@ -151,6 +181,7 @@ export default function Selections(props) {
             url={permaURL}
             playing
             controls
+            defaultValue={0}
             width="1000px"
             height="562.5px"
             style={{ border: "1px gray solid", borderRadius: "10px" }}
@@ -173,28 +204,43 @@ export default function Selections(props) {
               defaultValue={0}
               min={0}
               max={max}
-              onChange={(e) => ref.current.seekTo(e.target.value - 2)}
+              onChange={(e) => checkBoss(e)}
               marks={sliderData}
-              sx={{
-                color: "rgba(0,0,0,0)",
-                // backgroundColor: "#323233",
-                width: "980px",
-                "& .MuiSlider-mark": {
-                  backgroundColor: "red",
-                  height: 17,
-                  width: "1px",
-                  borderRadius: "1px",
-                  "&.MuiSlider-markActive": {
-                    opacity: 1,
+              track={false}
+              sx={[
+                {
+                  color: "rgba(0,0,0,0)",
+                  // backgroundColor: "#323233",
+                  width: "980px",
+
+                  "& .MuiSlider-mark": {
                     backgroundColor: "red",
+                    height: 17,
+                    width: "1px",
+                    borderRadius: "1px",
+                  },
+                  "& .MuiSlider-thumb": {
+                    color: "white",
+                    height: 25,
+                    width: "3px",
+                  },
+                  "& .MuiSlider-valueLabel": {
+                    backgroundColor: "gray",
                   },
                 },
-                "& .MuiSlider-thumb": {
-                  color: "white",
-                  height: 25,
-                  width: "3px",
+                boss && {
+                  "& .MuiSlider-valueLabel": {
+                    backgroundColor: "lightblue",
+                    color: "black",
+                  },
                 },
-              }}
+                npc && {
+                  "& .MuiSlider-valueLabel": {
+                    backgroundColor: "green",
+                    color: "black",
+                  },
+                },
+              ]}
             />
           </Box>
         </div>
