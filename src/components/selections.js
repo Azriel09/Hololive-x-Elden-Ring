@@ -5,20 +5,10 @@ import InputLabel from "@mui/material/InputLabel";
 import Box from "@mui/material/Box";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import Iframe from "react-iframe";
-import Loading from "./loading";
 import Slider from "@mui/material/Slider";
-import Link from "@mui/material/Link";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormLabel from "@mui/material/FormLabel";
-import None from "./none";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-
+import Stats from "./stats";
+import TotalDeaths from "./total_deaths";
 export default function Selections(props) {
-  const [selectedValue, setSelectedValue] = React.useState("a");
   const ref = React.createRef();
   const [selected, setSelected] = useState("");
   const [sliderData, setSliderData] = useState([]);
@@ -141,117 +131,129 @@ export default function Selections(props) {
 
   return (
     <div>
-      <FormControl fullWidth sx={{ marginBottom: "20px" }}>
-        <InputLabel sx={{ color: "white" }} id="demo-simple-select-label">
-          Select Stream
-        </InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={selected}
-          label="Select Stream"
-          onChange={(e) => handleChange(e.target.value)}
-          sx={{
-            backgroundColor: "#2e2e2e",
-            width: "175px",
-            height: "60px",
-            color: "rgb(220, 220, 220)",
-          }}
-        >
-          {streams.map((stream, index) => {
-            return (
-              <MenuItem key={index} value={index}>
-                {stream}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>
-
-      {(selected || selected === 0) && sliderData ? (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <ReactPlayer
-            ref={ref}
-            url={permaURL}
-            playing
-            controls
-            defaultValue={0}
-            width="1000px"
-            height="562.5px"
-            style={{ border: "1px gray solid", borderRadius: "10px" }}
-          />
-          <Box
-            sx={{
-              width: 1000,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              marginTop: "30px",
-            }}
-          >
-            <Slider
-              aria-label="Restricted values"
-              valueLabelFormat={valueLabelFormat}
-              getAriaValueText={valuetext}
-              valueLabelDisplay="on"
-              step={null}
-              defaultValue={0}
-              min={0}
-              max={max}
-              onChange={(e) => checkBoss(e)}
-              marks={sliderData}
-              track={false}
-              sx={[
-                {
-                  color: "rgba(0,0,0,0)",
-                  // backgroundColor: "#323233",
-                  width: "980px",
-
-                  "& .MuiSlider-mark": {
-                    backgroundColor: "red",
-                    height: 17,
-                    width: "1px",
-                    borderRadius: "1px",
-                  },
-                  "& .MuiSlider-thumb": {
-                    color: "white",
-                    height: 25,
-                    width: "3px",
-                  },
-                  "& .MuiSlider-valueLabel": {
-                    backgroundColor: "gray",
-                  },
-                },
-                boss && {
-                  "& .MuiSlider-valueLabel": {
-                    backgroundColor: "lightblue",
-                    color: "black",
-                  },
-                },
-                npc && {
-                  "& .MuiSlider-valueLabel": {
-                    backgroundColor: "green",
-                    color: "white",
-                  },
-                },
-              ]}
-            />
+      <Box sx={{ display: "flex", flexDirection: "row" }}>
+        <div className="selection-player-timestamps">
+          <Box sx={{ display: "flex", flexDirection: "row" }}>
+            <FormControl
+              fullWidth
+              sx={{ marginBottom: "20px", width: "350px" }}
+            >
+              <InputLabel sx={{ color: "white" }} id="demo-simple-select-label">
+                Select Stream
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={selected}
+                label="Select Stream"
+                onChange={(e) => handleChange(e.target.value)}
+                sx={{
+                  backgroundColor: "#2e2e2e",
+                  width: "175px",
+                  height: "60px",
+                  color: "rgb(220, 220, 220)",
+                }}
+              >
+                {streams.map((stream, index) => {
+                  return (
+                    <MenuItem key={index} value={index}>
+                      {stream}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+            {totalDeaths ? <TotalDeaths deaths={totalDeaths} /> : null}
           </Box>
+          {(selected || selected === 0) && sliderData ? (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <ReactPlayer
+                ref={ref}
+                url={permaURL}
+                playing
+                controls
+                defaultValue={0}
+                width="1000px"
+                height="562.5px"
+                style={{ border: "1px gray solid", borderRadius: "10px" }}
+              />
+              <Box
+                sx={{
+                  width: 1000,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  marginTop: "30px",
+                }}
+              >
+                <Slider
+                  aria-label="Restricted values"
+                  valueLabelFormat={valueLabelFormat}
+                  getAriaValueText={valuetext}
+                  valueLabelDisplay="on"
+                  step={null}
+                  defaultValue={0}
+                  min={0}
+                  max={max}
+                  onChange={(e) => checkBoss(e)}
+                  marks={sliderData}
+                  track={false}
+                  sx={[
+                    {
+                      color: "rgba(0,0,0,0)",
+                      // backgroundColor: "#323233",
+                      width: "980px",
+
+                      "& .MuiSlider-mark": {
+                        backgroundColor: "red",
+                        height: 17,
+                        width: "1px",
+                        borderRadius: "1px",
+                      },
+                      "& .MuiSlider-thumb": {
+                        color: "white",
+                        height: 25,
+                        width: "3px",
+                      },
+                      "& .MuiSlider-valueLabel": {
+                        backgroundColor: "gray",
+                      },
+                    },
+                    boss && {
+                      "& .MuiSlider-valueLabel": {
+                        backgroundColor: "lightblue",
+                        color: "black",
+                      },
+                    },
+                    npc && {
+                      "& .MuiSlider-valueLabel": {
+                        backgroundColor: "green",
+                        color: "white",
+                      },
+                    },
+                  ]}
+                />
+              </Box>
+            </div>
+          ) : (
+            <ReactPlayer
+              url=""
+              width="1000px"
+              height="562.5px"
+              style={{ border: "1px gray solid", borderRadius: "10px" }}
+            />
+          )}
         </div>
-      ) : (
-        <ReactPlayer
-          url=""
-          width="1000px"
-          height="562.5px"
-          style={{ border: "1px gray solid", borderRadius: "10px" }}
-        />
-      )}
+        <div className="stats">
+          <Stats />
+        </div>
+      </Box>
     </div>
   );
 }

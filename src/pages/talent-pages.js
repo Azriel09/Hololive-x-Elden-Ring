@@ -1,11 +1,20 @@
 import React from "react";
 import GetData from "../components/sheet_retriever";
 import "../components/css/page.css";
-
+import CoverIcon from "../images/cover-icon.png";
+import { useProSidebar } from "react-pro-sidebar";
+import IconButton from "@mui/material/IconButton";
 export function Ame() {
+  const { toggleSidebar } = useProSidebar();
   return (
     <div className="talent">
-      <div>
+      <div style={{ height: "100px", display: "flex", flexDirection: "row" }}>
+        <IconButton aria-label="Example" onClick={() => toggleSidebar()}>
+          <img
+            src={CoverIcon}
+            style={{ borderRadius: "50%", width: "75px", height: "75px" }}
+          />
+        </IconButton>
         <h1>Amelia Watson</h1>
       </div>
       <GetData name="Ame" />
