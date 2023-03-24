@@ -6,8 +6,9 @@ import Box from "@mui/material/Box";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Slider from "@mui/material/Slider";
-import Stats from "./stats";
+import Stats from "./piechart";
 import TotalDeaths from "./total_deaths";
+
 export default function Selections(props) {
   const ref = React.createRef();
   const [selected, setSelected] = useState("");
@@ -253,9 +254,6 @@ export default function Selections(props) {
               style={{ border: "1px gray solid", borderRadius: "10px" }}
             />
           )}
-        </div>
-        <div className="stats">
-          <Stats />
         </div>
       </Box>
     </div>
