@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Selections from "./selections";
 import "./css/loading.css";
-import Timestamps from "./timestamps";
-
+import Box from "@mui/material/Box";
+import PieChart from "./piechart";
 export default function GetData(props) {
   const [loading, setLoading] = useState(false);
   const [streams, setStreams] = useState([]);
@@ -64,12 +64,15 @@ export default function GetData(props) {
   } else {
     return (
       <div>
-        <Selections
-          name={props.name}
-          stream={streams}
-          link={links}
-          death={deaths}
-        ></Selections>
+        <Box sx={{ display: "flex", flexDirection: "row" }}>
+          <Selections
+            name={props.name}
+            stream={streams}
+            link={links}
+            death={deaths}
+          ></Selections>
+          <PieChart />
+        </Box>
       </div>
     );
   }
