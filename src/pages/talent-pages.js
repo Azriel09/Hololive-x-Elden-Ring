@@ -4,82 +4,61 @@ import "../components/css/page.css";
 import CoverIcon from "../images/cover-icon.png";
 import { useProSidebar } from "react-pro-sidebar";
 import IconButton from "@mui/material/IconButton";
+import TalentCard from "../components/talentCard";
 export function Ame() {
-  const { toggleSidebar } = useProSidebar();
   return (
-    <div className="talent">
-      <div
-        style={{
-          height: "100px",
-          display: "flex",
-          flexDirection: "row",
-          marginBottom: "20px",
-        }}
-      >
-        <IconButton aria-label="Example" onClick={() => toggleSidebar()}>
-          <img
-            src={CoverIcon}
-            style={{ borderRadius: "50%", width: "75px", height: "75px" }}
-          />
-        </IconButton>
-        <h1>Amelia Watson</h1>
-      </div>
-      <GetData name="Ame" />
+    <div>
+      <TalentCard name="Ame" fname="Watson Amelia" />
     </div>
   );
 }
 
 export function Calli() {
   return (
-    <div className="talent">
+    <div>
       <div>
-        <h1>Mori Calliope</h1>
+        <TalentCard name="Calli" fname="Mori Calliope" />
       </div>
-      <GetData name="Calli" />
     </div>
   );
 }
 
 export function Gura() {
   return (
-    <div className="talent">
+    <div>
       <div>
-        <h1>Gawr Gura</h1>
+        <TalentCard name="Gura" fname="Gawr Gura" />
       </div>
-      <GetData name="Gura" />
     </div>
   );
 }
 
 export function Ina() {
   return (
-    <div className="talent">
+    <div>
       <div>
-        <h1>Ninomae Ina'nis</h1>
+        <TalentCard name="Ina" fname="Ninomae Ina'nis" />
       </div>
-      <GetData name="Ina" />
     </div>
   );
 }
 
 export function Irys() {
   return (
-    <div className="talent">
+    <div>
       <div>
-        <h1>IRyS</h1>
+        <TalentCard name="Irys" fname="Irys" />
       </div>
-      <GetData name="Irys" />
     </div>
   );
 }
 
 export function Kronii() {
   return (
-    <div className="talent">
+    <div>
       <div>
-        <h1>Ouro Kronii</h1>
+        <TalentCard name="Kronii" fname="Ouro Kronii" />
       </div>
-      <GetData name="Kronii" />
     </div>
   );
 }

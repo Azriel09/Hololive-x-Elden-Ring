@@ -10,6 +10,7 @@ class PieChart extends React.Component {
       options: {
         chart: {
           width: 380,
+
           type: "donut",
         },
         dataLabels: {
