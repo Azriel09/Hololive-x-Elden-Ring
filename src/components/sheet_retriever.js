@@ -71,7 +71,6 @@ export default function GetData(props) {
             link={links}
             death={deaths}
           ></Selections>
-          <PieChart />
         </Box>
       </div>
     );
