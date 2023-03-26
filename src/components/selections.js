@@ -130,7 +130,7 @@ export default function Selections(props) {
 
   return (
     <div>
-      <Box sx={{ display: "flex", flexDirection: "row" }}>
+      <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
         <Box>
           <div className="selection-player-timestamps">
             <Box sx={{ display: "flex", flexDirection: "row" }}>

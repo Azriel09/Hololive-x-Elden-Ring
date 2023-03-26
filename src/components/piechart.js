@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import ReactApexChart from "react-apexcharts";
+import { useLocation } from "react-router-dom";
 
 export default function PieChart(props) {
+  const path = useLocation().pathname;
+  const location = path.split("/")[1];
+
   const [selected, setSelected] = useState(false);
   const [series, setSeries] = useState([]);
   const [unique, setUnique] = useState([]);
@@ -10,7 +14,7 @@ export default function PieChart(props) {
   const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=${
     props.name + (+[props.selected] + 1)
   }`;
-  console.log(sheetURL);
+
   useEffect(() => {
     fetch(sheetURL)
       .then((response) => response.text())
@@ -64,8 +68,11 @@ export default function PieChart(props) {
     }
     let tempoUnique = [];
     let tempoSeries = [];
-    console.log(count);
-    for (const [key, value] of Object.entries(count)) {
+
+    const sortable = Object.fromEntries(
+      Object.entries(count).sort(([, a], [, b]) => b - a)
+    );
+    for (const [key, value] of Object.entries(sortable)) {
       if (key.includes("Boss")) {
         let tempoBoss = key.replace("Boss", "");
         tempoUnique.push(tempoBoss);
@@ -81,14 +88,66 @@ export default function PieChart(props) {
     setSeries(tempoSeries);
   }
 
+  function chartColor() {
+    switch (location) {
+      case "ame":
+        return "#ffff00";
+      case "calli":
+        return "#ff0000";
+      case "gura":
+        return "#008ffb";
+      case "four":
+        return "FOUR";
+      default:
+        return "ONE";
+    }
+  }
+  chartColor();
+
   const options = {
     chart: {
-      width: 600,
-      type: "donut",
+      width: 300,
+      type: "pie",
+      foreColor: "#b9b9bb",
+      fontSiz: "30px",
     },
     labels: unique,
+    theme: {
+      monochrome: {
+        enabled: true,
+        color: chartColor(),
+        shadeTo: "dark",
+        shadeIntensity: 0.65,
+      },
+    },
+    tooltip: {
+      color: "#b9b9bb",
+      style: {
+        fontSize: "20px",
+        color: "#b9b9bb",
+      },
+    },
     dataLabels: {
+      formater(val, opt) {
+        console.log(opt.seriesIndex);
+        return series[opt.seriesIndex][opt.dataPointIndex];
+      },
       enabledOnSeries: true,
+      offset: -5,
+      style: {
+        fontSize: "20px",
+        foreColor: "#b9b9bb",
+      },
+      textAnchor: "middle",
+      distributed: false,
+      dropShadow: {
+        enabled: true,
+        top: 1,
+        left: 1,
+        blur: 1,
+        color: "#000",
+        opacity: 1,
+      },
     },
     responsive: [
       {
@@ -112,16 +171,14 @@ export default function PieChart(props) {
 
   return (
     <div>
-      <div className="chart-wrap">
-        <div id="chart">
-          <ReactApexChart
-            options={options}
-            series={series}
-            type="donut"
-            width={700}
-          />
-        </div>
-      </div>
+      <Box>
+        <ReactApexChart
+          options={options}
+          series={series}
+          type="pie"
+          width={700}
+        />
+      </Box>
     </div>
   );
 }

@@ -28,15 +28,15 @@ h1 {
 }
 
 .Ame {
-  text-shadow: 0 0 5px #ffefcc, 0 0 5px yellow;
+  text-shadow: 0 0 5px #ffefcc, 0 0 5px #ffff00;
 }
 
 .Calli {
-  text-shadow: 0 0 5px #bf547b, 0 0 5px red;
+  text-shadow: 0 0 5px #bf547b, 0 0 5px #ff0000;
 }
 
 .Gura {
-  text-shadow: 0 0 5px #5abeff, 0 0 5px lightblue;
+  text-shadow: 0 0 5px #5abeff, 0 0 5px #add8e6;
 }
 
 .Irys {
