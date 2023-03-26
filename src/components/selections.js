@@ -258,8 +258,10 @@ export default function Selections(props) {
             )}
           </div>
         </Box>
-        <Box>
-          {selected ? <PieChart sheet={sheetID} selected={selected} /> : null}
+        <Box sx={{ width: "600px", marginLeft: "50px" }}>
+          {(selected || selected === 0) && sliderData ? (
+            <PieChart sheet={sheetID} selected={selected} name={props.name} />
+          ) : null}
         </Box>
       </Box>
     </div>

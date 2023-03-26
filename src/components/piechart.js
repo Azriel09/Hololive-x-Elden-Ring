@@ -4,12 +4,13 @@ import ReactApexChart from "react-apexcharts";
 
 export default function PieChart(props) {
   const [selected, setSelected] = useState(false);
-  const [series, setSeries] = useState([44, 55, 13, 33]);
-
-  const sheetURL = `https://docs.google.com/spreadsheets/d/${
-    props.sheet
-  }/gviz/tq?tqx=out:csv&sheet=${props.name + (+[props.selected] + 1)}`;
-
+  const [series, setSeries] = useState([]);
+  const [unique, setUnique] = useState([]);
+  const sheetID = "1RbmeWv7zdmLIvQoOiKZYOkHlcMfBsMxs7nj5C2nCjYg";
+  const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=${
+    props.name + (+[props.selected] + 1)
+  }`;
+  console.log(sheetURL);
   useEffect(() => {
     fetch(sheetURL)
       .then((response) => response.text())
@@ -17,7 +18,7 @@ export default function PieChart(props) {
       .catch((err) => {
         console.log(err.message);
       });
-  }, []);
+  }, [props.selected]);
   function handleResponse(csvText, e) {
     let sheetObjects = csvToObjects(csvText, e);
   }
@@ -44,26 +45,57 @@ export default function PieChart(props) {
         }
       }
     }
+    countOccurences(killer);
   }
 
   function csvSplit(row) {
     return row.split(",").map((val) => val.substring(1, val.length - 1));
   }
 
+  function countOccurences(arr) {
+    const count = {};
+    for (let i = 0; i < arr.length; i++) {
+      const item = arr[i];
+      if (count[item]) {
+        count[item]++;
+      } else {
+        count[item] = 1;
+      }
+    }
+    let tempoUnique = [];
+    let tempoSeries = [];
+    console.log(count);
+    for (const [key, value] of Object.entries(count)) {
+      if (key.includes("Boss")) {
+        let tempoBoss = key.replace("Boss", "");
+        tempoUnique.push(tempoBoss);
+      } else if (key.includes("NPC")) {
+        let tempoNPC = key.replace("NPC", "");
+        tempoUnique.push(tempoNPC);
+      } else {
+        tempoUnique.push(key);
+      }
+      tempoSeries.push(value);
+    }
+    setUnique(tempoUnique);
+    setSeries(tempoSeries);
+  }
+
   const options = {
     chart: {
-      width: 380,
+      width: 600,
       type: "donut",
     },
+    labels: unique,
     dataLabels: {
-      enabled: true,
+      enabledOnSeries: true,
     },
     responsive: [
       {
-        breakpoint: 480,
+        breakpoint: 100,
         options: {
           chart: {
-            width: 200,
+            width: 500,
           },
           legend: {
             show: false,
@@ -74,36 +106,10 @@ export default function PieChart(props) {
     legend: {
       position: "right",
       offsetY: 0,
-      height: 230,
+      height: 400,
     },
   };
 
-  const appendData = () => {
-    var arr = series.slice();
-    arr.push(Math.floor(Math.random() * (100 - 1 + 1)) + 1);
-
-    setSeries(arr);
-  };
-
-  const removeData = () => {
-    if (series.legend === 1) return;
-
-    var arr = series.slice();
-    arr.pop();
-    setSeries(arr);
-  };
-
-  const randomize = () => {
-    setSeries(
-      series.map(function () {
-        return Math.floor(Math.random() * (100 - 1 + 1)) + 1;
-      })
-    );
-  };
-
-  const reset = () => {
-    setSeries([44, 45, 13, 33]);
-  };
   return (
     <div>
       <div className="chart-wrap">
@@ -112,18 +118,9 @@ export default function PieChart(props) {
             options={options}
             series={series}
             type="donut"
-            width={380}
+            width={700}
           />
         </div>
-      </div>
-      <div className="actions">
-        <button onClick={() => appendData()}>+ ADD</button>
-        &nbsp;
-        <button onClick={() => removeData()}>- REMOVE</button>
-        &nbsp;
-        <button onClick={() => randomize()}>RANDOMIZE</button>
-        &nbsp;
-        <button onClick={() => reset()}>RESET</button>
       </div>
     </div>
   );
