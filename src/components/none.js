@@ -1,83 +1,101 @@
 import React, { useState } from "react";
+import ReactApexChart from "react-apexcharts";
 
-export default function None() {
-  const [series, setSeries] = useState[(44, 55, 13, 33)];
-  const options = {
-    chart: {
-      width: 380,
+class ApexChart extends React.Component {
+  constructor(props) {
+    super(props);
 
-      type: "donut",
-    },
-    dataLabels: {
-      enabled: true,
-    },
-    responsive: [
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            width: 200,
+    this.state = {
+      series: [44, 55, 13, 33],
+      options: {
+        chart: {
+          width: 380,
+          type: "donut",
+        },
+        labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+        dataLabels: {
+          enabled: false,
+        },
+        responsive: [
+          {
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 200,
+              },
+              legend: {
+                show: false,
+              },
+            },
           },
-          legend: {
-            show: false,
-          },
+        ],
+        legend: {
+          position: "right",
+          offsetY: 0,
+          height: 230,
         },
       },
-    ],
-    legend: {
-      position: "right",
-      offsetY: 0,
-      height: 230,
-    },
-  };
+    };
+  }
 
-  const appendData = () => {
-    var arr = series.slice();
+  appendData() {
+    var arr = this.state.series.slice();
     arr.push(Math.floor(Math.random() * (100 - 1 + 1)) + 1);
 
-    setSeries(arr);
-  };
+    this.setState({
+      series: arr,
+    });
+  }
 
-  const removeData = () => {
-    if (series.legend === 1) return;
+  removeData() {
+    if (this.state.series.length === 1) return;
 
-    var arr = series.slice();
+    var arr = this.state.series.slice();
     arr.pop();
-    setSeries(arr);
-  };
 
-  const randomize = () => {
-    setSeries(
-      series.map(function () {
+    this.setState({
+      series: arr,
+    });
+  }
+
+  randomize() {
+    this.setState({
+      series: this.state.series.map(function () {
         return Math.floor(Math.random() * (100 - 1 + 1)) + 1;
-      })
-    );
-  };
+      }),
+    });
+  }
 
-  const reset = () => {
-    setSeries([44, 45, 13, 33]);
-  };
-  return (
-    <div>
-      <div class="chart-wrap">
-        <div id="chart">
-          <ReactApexChart
-            options={options}
-            series={series}
-            type="donut"
-            width={380}
-          />
+  reset() {
+    this.setState({
+      series: [44, 55, 13, 33],
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <div class="chart-wrap">
+          <div id="chart">
+            <ReactApexChart
+              options={this.state.options}
+              series={this.state.series}
+              type="donut"
+              width={380}
+            />
+          </div>
+        </div>
+
+        <div class="actions">
+          <button onClick={() => this.appendData()}>+ ADD</button>
+          &nbsp;
+          <button onClick={() => this.removeData()}>- REMOVE</button>
+          &nbsp;
+          <button onClick={() => this.randomize()}>RANDOMIZE</button>
+          &nbsp;
+          <button onClick={() => this.reset()}>RESET</button>
         </div>
       </div>
-      <div class="actions">
-        <button onClick={() => appendData()}>+ ADD</button>
-        &nbsp;
-        <button onClick={() => removeData()}>- REMOVE</button>
-        &nbsp;
-        <button onClick={() => randomize()}>RANDOMIZE</button>
-        &nbsp;
-        <button onClick={() => reset()}>RESET</button>
-      </div>
-    </div>
-  );
+    );
+  }
 }
