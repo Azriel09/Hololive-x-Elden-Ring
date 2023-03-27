@@ -130,8 +130,20 @@ export default function Selections(props) {
 
   return (
     <div>
-      <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-        <Box>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "flexStart",
+        }}
+      >
+        <Box
+          sx={{
+            border: "2px solid #b9b9bb",
+            borderRadius: "10px",
+            padding: "20px 10px 10px",
+          }}
+        >
           <div className="selection-player-timestamps">
             <Box sx={{ display: "flex", flexDirection: "row" }}>
               <FormControl
@@ -258,9 +270,22 @@ export default function Selections(props) {
             )}
           </div>
         </Box>
-        <Box sx={{ width: "600px", marginLeft: "50px" }}>
+        <Box
+          sx={{
+            width: "750px",
+            marginLeft: "25px",
+          }}
+        >
           {(selected || selected === 0) && sliderData ? (
-            <PieChart sheet={sheetID} selected={selected} name={props.name} />
+            <Box
+              sx={{
+                border: "2px solid #b9b9bb",
+                borderRadius: "10px",
+                padding: "10px",
+              }}
+            >
+              <PieChart sheet={sheetID} selected={selected} name={props.name} />
+            </Box>
           ) : null}
         </Box>
       </Box>

@@ -73,14 +73,15 @@ export default function PieChart(props) {
       Object.entries(count).sort(([, a], [, b]) => b - a)
     );
     for (const [key, value] of Object.entries(sortable)) {
-      if (key.includes("Boss")) {
-        let tempoBoss = key.replace("Boss", "");
+      const tempoKey = `(${value}) ` + key;
+      if (tempoKey.includes("Boss")) {
+        let tempoBoss = tempoKey.replace("Boss", "");
         tempoUnique.push(tempoBoss);
-      } else if (key.includes("NPC")) {
-        let tempoNPC = key.replace("NPC", "");
+      } else if (tempoKey.includes("NPC")) {
+        let tempoNPC = tempoKey.replace("NPC", "");
         tempoUnique.push(tempoNPC);
       } else {
-        tempoUnique.push(key);
+        tempoUnique.push(tempoKey);
       }
       tempoSeries.push(value);
     }
@@ -96,20 +97,23 @@ export default function PieChart(props) {
         return "#ff0000";
       case "gura":
         return "#008ffb";
-      case "four":
-        return "FOUR";
+      case "ina":
+        return "#9400d3";
+      case "irys":
+        return "#ff00ff";
+      case "kronii":
+        return "#0000ff";
       default:
         return "ONE";
     }
   }
-  chartColor();
 
+  //Chart Config
   const options = {
     chart: {
       width: 300,
       type: "pie",
       foreColor: "#b9b9bb",
-      fontSiz: "30px",
     },
     labels: unique,
     theme: {
@@ -117,7 +121,7 @@ export default function PieChart(props) {
         enabled: true,
         color: chartColor(),
         shadeTo: "dark",
-        shadeIntensity: 0.65,
+        shadeIntensity: 0.5,
       },
     },
     tooltip: {
@@ -128,10 +132,6 @@ export default function PieChart(props) {
       },
     },
     dataLabels: {
-      formater(val, opt) {
-        console.log(opt.seriesIndex);
-        return series[opt.seriesIndex][opt.dataPointIndex];
-      },
       enabledOnSeries: true,
       offset: -5,
       style: {
@@ -166,6 +166,7 @@ export default function PieChart(props) {
       position: "right",
       offsetY: 0,
       height: 400,
+      fontSize: "16px",
     },
   };
 

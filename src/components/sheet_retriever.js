@@ -64,7 +64,12 @@ export default function GetData(props) {
   } else {
     return (
       <div>
-        <Box sx={{ display: "flex", flexDirection: "row" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
           <Selections
             name={props.name}
             stream={streams}
