@@ -5,6 +5,7 @@ import CoverIcon from "../images/cover-icon.png";
 import { useProSidebar } from "react-pro-sidebar";
 import IconButton from "@mui/material/IconButton";
 import TalentCard from "../components/talentCard";
+
 export function Ame() {
   return (
     <div>
@@ -64,8 +65,23 @@ export function Kronii() {
 }
 
 export function Home() {
+  const { toggleSidebar } = useProSidebar();
   return (
-    <div className="talent">
+    <div
+      style={{
+        height: "100px",
+        display: "flex",
+        flexDirection: "row",
+        marginBottom: "20px",
+      }}
+    >
+      <IconButton aria-label="Example" onClick={() => toggleSidebar()}>
+        <img
+          src={CoverIcon}
+          alt="talent-bg"
+          style={{ borderRadius: "50%", width: "75px", height: "75px" }}
+        />
+      </IconButton>
       <h1>Home</h1>
     </div>
   );

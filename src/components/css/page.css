@@ -8,15 +8,28 @@ h1 {
 }
 
 .talent {
-  background-color: rgba(33, 31, 31, 0.5);
-  width: 90vw;
-  height: 85vh;
-  padding: 0 25px 25px 25px;
-  border-right: 3px solid rgba(95, 220, 238, 0.5);
-  border-bottom: 3px solid rgba(95, 220, 238, 0.5);
+  /* border-bottom: 3px solid rgba(95, 220, 238, 0.5); */
   border-radius: 0px 20px 20px;
+  min-width: 100%;
+  height: 90vh;
+  margin: 0 25px 25px 25px;
 }
 
+@media only screen and (max-width: 1710px) {
+  .talent {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+  }
+}
+
+@media only screen and (max-width: 610px) {
+  .talent {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+  }
+}
 /* NAME HEADERS */
 .talent div h1 {
   /* font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -25,6 +38,23 @@ h1 {
   letter-spacing: 4px;
   margin-top: 2vh;
   font-size: 3em;
+}
+@media only screen and (max-width: 1710px) {
+  .talent div h1 {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+@media only screen and (max-width: 610px) {
+  .talent div h1 {
+    font-size: 2.5em;
+  }
+}
+
+@media only screen and (max-width: 430px) {
+  .talent div h1 {
+    text-align: center;
+  }
 }
 
 .Ame {
@@ -40,13 +70,13 @@ h1 {
 }
 
 .Irys {
-  text-shadow: 0 0 5px #69035a, 0 0 5px magenta;
+  text-shadow: 0 0 5px #69035a, 0 0 5px #ff00ff;
 }
 
 .Ina {
-  text-shadow: 0 0 5px #54396d, 0 0 5px darkviolet;
+  text-shadow: 0 0 5px #54396d, 0 0 5px #9400d3;
 }
 
 .Kronii {
-  text-shadow: 0 0 5px #243a9e, 0 0 5px blue;
+  text-shadow: 0 0 5px #243a9e, 0 0 5px #0000ff;
 }

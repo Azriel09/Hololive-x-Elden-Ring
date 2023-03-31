@@ -5,7 +5,7 @@ import SideNav from "./components/Sidenav";
 
 function App() {
   return (
-    <div>
+    <div className="app" style={{ backgroundColor: "rgba(33, 31, 31, 0.5)" }}>
       <Test />
       <SideNav />
     </div>
