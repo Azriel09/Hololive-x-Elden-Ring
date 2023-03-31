@@ -1,6 +1,8 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
 import "./css/font.css";
+import { createTheme } from "@mui/material/styles";
+const theme = createTheme();
 export default function TotalDeaths(props) {
   return (
     <div>
@@ -14,6 +16,14 @@ export default function TotalDeaths(props) {
           fontFamily: "Elden Ring",
           letterSpacing: "3px",
           textShadow: "2px 2px white",
+          width: "500px",
+          textAlign: "center",
+          [theme.breakpoints.down("850")]: {
+            fontSize: "30px",
+          },
+          [theme.breakpoints.down("350")]: {
+            fontSize: "20px",
+          },
         }}
       >
         Total Deaths: {props.deaths}

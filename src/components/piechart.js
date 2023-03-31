@@ -166,7 +166,7 @@ export default function PieChart(props) {
       position: "right",
       offsetY: 0,
       height: 400,
-      fontSize: "16px",
+      fontSize: "15px",
     },
   };
 
@@ -177,7 +177,7 @@ export default function PieChart(props) {
           options={options}
           series={series}
           type="pie"
-          width={700}
+          maxWidth={700}
         />
       </Box>
     </div>

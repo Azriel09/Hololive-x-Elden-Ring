@@ -12,10 +12,24 @@ h1 {
   border-radius: 0px 20px 20px;
   min-width: 100%;
   height: 90vh;
-  margin-left: "100px";
-  padding: 0 25px 25px 25px;
+  margin: 0 25px 25px 25px;
 }
 
+@media only screen and (max-width: 1710px) {
+  .talent {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+  }
+}
+
+@media only screen and (max-width: 610px) {
+  .talent {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+  }
+}
 /* NAME HEADERS */
 .talent div h1 {
   /* font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -24,6 +38,23 @@ h1 {
   letter-spacing: 4px;
   margin-top: 2vh;
   font-size: 3em;
+}
+@media only screen and (max-width: 1710px) {
+  .talent div h1 {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+@media only screen and (max-width: 610px) {
+  .talent div h1 {
+    font-size: 2.5em;
+  }
+}
+
+@media only screen and (max-width: 430px) {
+  .talent div h1 {
+    text-align: center;
+  }
 }
 
 .Ame {
