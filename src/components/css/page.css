@@ -6,6 +6,14 @@
 h1 {
   color: white;
 }
+@media only screen and (max-width: 1710px) {
+  .talent-page-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
 
 .talent {
   /* border-bottom: 3px solid rgba(95, 220, 238, 0.5); */

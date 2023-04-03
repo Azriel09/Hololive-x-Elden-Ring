@@ -1,7 +1,7 @@
 .sidenav {
   display: flex;
-  min-height: 150vh;
-  min-width: 100%;
+  min-height: 200vh;
+  max-width: 99vw;
   box-shadow: inset 0 0 0 2000px rgb(5, 5, 5, 0.9);
   background-size: cover;
   background-repeat: no-repeat;
