@@ -177,7 +177,7 @@ export default function PieChart(props) {
           options={options}
           series={series}
           type="pie"
-          maxWidth={700}
+          width={700}
         />
       </Box>
     </div>

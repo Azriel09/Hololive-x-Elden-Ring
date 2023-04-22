@@ -10,7 +10,12 @@ import Stats from "./piechart";
 import TotalDeaths from "./total_deaths";
 import PieChart from "./piechart";
 import { createTheme } from "@mui/material/styles";
+import moment from "moment";
 const theme = createTheme();
+const apiKeyYT = process.env.REACT_APP_YOUTUBE_API_KEY;
+const apiKeyHolodex = process.env.REACT_APP_HOLODEX_API_KEY;
+const sheetID = process.env.REACT_APP_SHEET_ID;
+
 export default function Selections(props) {
   const ref = React.createRef();
   const [selected, setSelected] = useState("");
@@ -23,7 +28,7 @@ export default function Selections(props) {
   const [npc, setNPC] = useState(false);
   const streams = props.stream;
   const links = props.link;
-  const sheetID = "1RbmeWv7zdmLIvQoOiKZYOkHlcMfBsMxs7nj5C2nCjYg";
+
   const handleChange = (e) => {
     const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=${
       props.name + (+[e] + 1)
@@ -36,6 +41,7 @@ export default function Selections(props) {
       });
   };
 
+  // Get Video ID
   function getID(e) {
     let url = links[e].replace("watch?v=", "embed/");
     const id = url.split("/").pop();
@@ -43,18 +49,35 @@ export default function Selections(props) {
     getVideoDuration(id);
   }
 
-  const getVideoDuration = (id) => {
-    let url = `https://holodex.net/api/v2/videos/${id}`;
+  const getVideoDuration = async (id) => {
+    // Via Youtube API
+    const url = `https://www.googleapis.com/youtube/v3/videos?id=${id}&part=contentDetails&key=${apiKeyYT}`;
 
-    let options = {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    };
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      const iso8601Duration = data.items[0].contentDetails.duration;
+      const secondsDuration = moment.duration(iso8601Duration).asSeconds();
+      setMax(secondsDuration);
+    } catch (error) {
+      console.error(error);
 
-    fetch(url, options)
-      .then((res) => res.json())
-      .then((json) => setMax(json.duration))
-      .catch((err) => console.error("error:" + err));
+      // If error, use Holodex API
+      const url = `https://holodex.net/api/v2/videos/${id}`;
+      const options = {
+        method: "GET",
+        headers: { Accept: "application/json", "X-APIKEY": apiKeyHolodex },
+      };
+
+      try {
+        const response = await fetch(url, options);
+        const data = await response.json();
+        const durationSeconds = data.duration;
+        setMax(durationSeconds);
+      } catch (error) {
+        console.error(error);
+      }
+    }
   };
 
   function handleResponse(csvText, e) {
@@ -114,6 +137,7 @@ export default function Selections(props) {
     } catch (err) {}
   }
 
+  // For Slider Value Label BG Color
   const checkBoss = (e) => {
     let index = sliderData.findIndex((mark) => mark.value === e.target.value);
     ref.current.seekTo(e.target.value - 2);
