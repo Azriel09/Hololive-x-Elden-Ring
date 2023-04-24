@@ -249,6 +249,11 @@ export default function Selections(props) {
                   value={selected}
                   label="Select Stream"
                   onChange={(e) => handleChange(e.target.value)}
+                  MenuProps={{
+                    style: {
+                      maxHeight: 500,
+                    },
+                  }}
                   sx={{
                     backgroundColor: "#2e2e2e",
                     width: "175px",
