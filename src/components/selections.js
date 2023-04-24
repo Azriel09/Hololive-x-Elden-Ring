@@ -6,17 +6,21 @@ import Box from "@mui/material/Box";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Slider from "@mui/material/Slider";
-import Stats from "./piechart";
+
 import TotalDeaths from "./total_deaths";
 import PieChart from "./piechart";
 import { createTheme } from "@mui/material/styles";
 import moment from "moment";
+import { useLocation } from "react-router-dom";
+
 const theme = createTheme();
 const apiKeyYT = process.env.REACT_APP_YOUTUBE_API_KEY;
 const apiKeyHolodex = process.env.REACT_APP_HOLODEX_API_KEY;
 const sheetID = process.env.REACT_APP_SHEET_ID;
 
 export default function Selections(props) {
+  const path = useLocation().pathname;
+  const location = path.split("/")[1];
   const ref = React.createRef();
   const [selected, setSelected] = useState("");
   const [sliderData, setSliderData] = useState([]);
@@ -41,6 +45,24 @@ export default function Selections(props) {
       });
   };
 
+  function borderColor() {
+    switch (location) {
+      case "ame":
+        return "#ffff00";
+      case "calli":
+        return "#ff0000";
+      case "gura":
+        return "#008ffb";
+      case "ina":
+        return "#9400d3";
+      case "irys":
+        return "#ff00ff";
+      case "kronii":
+        return "#0000ff";
+      default:
+        return "ONE";
+    }
+  }
   // Get Video ID
   function getID(e) {
     let url = links[e].replace("watch?v=", "embed/");
@@ -81,11 +103,11 @@ export default function Selections(props) {
   };
 
   function handleResponse(csvText, e) {
-    let sheetObjects = csvToObjects(csvText, e);
+    csvToObjects(csvText, e);
   }
   function csvToObjects(csv, e) {
     const csvRows = csv.split("\n");
-    const propertyNames = csvSplit(csvRows[0]);
+
     let objects = [];
     let timestamp = [];
     let killah = [];
@@ -109,8 +131,11 @@ export default function Selections(props) {
     getID(e);
     setKillers(killah);
     setSliderData(objects);
+    setTotalDeaths(objects.length);
     setSelected(e);
-    setpermaURL(links[e].replace("watch?v=", "embed/"));
+    let ytURL = links[e].replace("watch?v=", "embed/") + "?rel=0";
+
+    setpermaURL(ytURL);
   }
 
   function csvSplit(row) {
@@ -122,7 +147,7 @@ export default function Selections(props) {
   }
   function valueLabelFormat(value) {
     let index = sliderData.findIndex((mark) => mark.value === value);
-    setTotalDeaths(sliderData.length);
+
     try {
       if (killers[index].includes("Boss")) {
         let death = killers[index].replace("Boss", "");
@@ -159,30 +184,33 @@ export default function Selections(props) {
       sx={{
         display: "flex",
         flexDirection: "row",
-        alignItems: "center",
+        alignItems: "flex-start",
         justifyContent: "center",
         width: "100%",
+        gap: "10px",
+        height: "100%",
         [theme.breakpoints.down("1710")]: {
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center",
+          gap: "20px",
         },
       }}
     >
       <Box
+        className="video-container"
         sx={{
-          border: "2px solid #b9b9bb",
           borderRadius: "10px",
           padding: "20px 10px 10px",
-          width: "75%",
+          border: `1px solid ${borderColor()}`,
+          backgroundColor: "#23242a",
+          width: "65%",
           height: "592.5",
           [theme.breakpoints.down("1710")]: {
-            width: "93vw",
+            width: "97%",
           },
-          [theme.breakpoints.down("550")]: {
-            paddingTop: "20px",
-            paddingLeft: "1px",
-            paddingRight: "1px",
+          [theme.breakpoints.down("435")]: {
+            width: "95%",
+            padding: 0,
           },
         }}
       >
@@ -191,7 +219,7 @@ export default function Selections(props) {
             sx={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "space-between",
+
               [theme.breakpoints.down("850")]: {
                 flexDirection: "column",
                 justifyContent: "center",
@@ -202,7 +230,7 @@ export default function Selections(props) {
             <Box
               sx={{
                 marginBottom: "20px",
-                width: "300px",
+                marginTop: "10px",
                 [theme.breakpoints.down("850")]: {
                   width: "auto",
                 },
@@ -241,7 +269,7 @@ export default function Selections(props) {
             {totalDeaths ? <TotalDeaths deaths={totalDeaths} /> : null}
             <Box
               sx={{
-                width: "300px",
+                ml: "auto",
                 [theme.breakpoints.down("850")]: {
                   width: "auto",
                 },
@@ -301,7 +329,7 @@ export default function Selections(props) {
                     {
                       color: "rgba(0,0,0,0)",
                       // backgroundColor: "#323233",
-                      width: "100%",
+                      width: "98%",
 
                       "& .MuiSlider-mark": {
                         backgroundColor: "red",
@@ -348,38 +376,34 @@ export default function Selections(props) {
           )}
         </div>
       </Box>
-      <Box
-        sx={{
-          width: "25%",
-          marginLeft: "25px",
-          [theme.breakpoints.down("1850")]: {
-            width: "700px",
-          },
-          [theme.breakpoints.down("1790")]: {
-            width: "610px",
-          },
-          [theme.breakpoints.down("1710")]: {
-            marginTop: "10px",
-            marginLeft: "0",
-            width: "619px",
-          },
-        }}
-      >
-        {(selected || selected === 0) && sliderData ? (
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-              border: "2px solid #b9b9bb",
-              borderRadius: "10px",
-              padding: "5px",
-            }}
-          >
-            <PieChart sheet={sheetID} selected={selected} name={props.name} />
-          </Box>
-        ) : null}
-      </Box>
+
+      {/* PIECHART */}
+      {(selected || selected === 0) && sliderData ? (
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            border: `1px solid ${borderColor()}`,
+            backgroundColor: "#23242a",
+            borderRadius: "10px",
+            padding: "20px 10px 10px",
+            width: "35%",
+            height: "100%",
+            marginBottom: "40px",
+            [theme.breakpoints.down("1710")]: {
+              width: "97%",
+            },
+            [theme.breakpoints.down("435")]: {
+              width: "95%",
+              padding: 0,
+            },
+          }}
+        >
+          <PieChart selected={selected} name={props.name} />
+        </Box>
+      ) : null}
     </Box>
   );
 }

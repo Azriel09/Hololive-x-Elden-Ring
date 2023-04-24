@@ -1,11 +1,11 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
 import "./css/font.css";
-import { createTheme } from "@mui/material/styles";
+import { Box, createTheme } from "@mui/material";
 const theme = createTheme();
 export default function TotalDeaths(props) {
   return (
-    <div>
+    <Box sx={{ marginLeft: "auto", marginRight: "auto" }}>
       <Typography
         sx={{
           fontWeight: "600",
@@ -16,8 +16,8 @@ export default function TotalDeaths(props) {
           fontFamily: "Elden Ring",
           letterSpacing: "3px",
           textShadow: "2px 2px white",
-          width: "500px",
           textAlign: "center",
+
           [theme.breakpoints.down("850")]: {
             fontSize: "30px",
           },
@@ -28,6 +28,6 @@ export default function TotalDeaths(props) {
       >
         Total Deaths: {props.deaths}
       </Typography>
-    </div>
+    </Box>
   );
 }

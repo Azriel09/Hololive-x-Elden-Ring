@@ -3,14 +3,14 @@ import Box from "@mui/material/Box";
 import ReactApexChart from "react-apexcharts";
 import { useLocation } from "react-router-dom";
 
+const sheetID = process.env.REACT_APP_SHEET_ID;
 export default function PieChart(props) {
   const path = useLocation().pathname;
   const location = path.split("/")[1];
 
-  const [selected, setSelected] = useState(false);
   const [series, setSeries] = useState([]);
   const [unique, setUnique] = useState([]);
-  const sheetID = "1RbmeWv7zdmLIvQoOiKZYOkHlcMfBsMxs7nj5C2nCjYg";
+
   const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=${
     props.name + (+[props.selected] + 1)
   }`;
@@ -23,10 +23,12 @@ export default function PieChart(props) {
         console.log(err.message);
       });
   }, [props.selected]);
+
   function handleResponse(csvText, e) {
-    let sheetObjects = csvToObjects(csvText, e);
+    csvToObjects(csvText, e);
   }
 
+  // Idk what this specifically do, I just copied it, something something that formats the spreadsheet data to be readable
   function csvToObjects(csv, e) {
     const csvRows = csv.split("\n");
     let objects = [];
@@ -51,11 +53,12 @@ export default function PieChart(props) {
     }
     countOccurences(killer);
   }
-
+  // Idk what this specifically do, I just copied it, something something that formats the spreadsheet data to be readable
   function csvSplit(row) {
     return row.split(",").map((val) => val.substring(1, val.length - 1));
   }
 
+  // Counts how many times a holomem had died to the same enemy
   function countOccurences(arr) {
     const count = {};
     for (let i = 0; i < arr.length; i++) {
@@ -137,6 +140,7 @@ export default function PieChart(props) {
       style: {
         fontSize: "20px",
         foreColor: "#b9b9bb",
+        color: "#b9b9bb",
       },
       textAnchor: "middle",
       distributed: false,
@@ -148,36 +152,148 @@ export default function PieChart(props) {
         color: "#000",
         opacity: 1,
       },
+      formatter: function (val, opts) {
+        return opts.w.config.series[opts.seriesIndex];
+      },
     },
     responsive: [
       {
-        breakpoint: 100,
+        breakpoint: 1921,
         options: {
           chart: {
-            width: 500,
+            width: "110%",
           },
           legend: {
-            show: false,
+            position: "bottom",
+            offsetY: 0,
+            height: 110,
+
+            fontSize: "15px",
+          },
+        },
+      },
+      {
+        breakpoint: 1710,
+        options: {
+          chart: {
+            width: "250%",
+            height: "600px",
+          },
+          legend: {
+            position: "right",
+            offsetY: 0,
+            height: 300,
+            fontSize: "25px",
+          },
+        },
+      },
+      {
+        breakpoint: 1130,
+        options: {
+          chart: {
+            width: "200%",
+            height: "500px",
+          },
+          legend: {
+            position: "right",
+            offsetY: 0,
+            height: 220,
+            fontSize: "20px",
+          },
+        },
+      },
+      {
+        breakpoint: 700,
+        options: {
+          chart: {
+            width: "200%",
+            height: "500px",
+          },
+          legend: {
+            position: "right",
+            offsetY: 0,
+            height: 225,
+            fontSize: "15px",
+          },
+        },
+      },
+      {
+        breakpoint: 650,
+        options: {
+          chart: {
+            width: "175%",
+            height: "500px",
+          },
+          legend: {
+            position: "right",
+            offsetY: 0,
+            height: 225,
+            fontSize: "15px",
+          },
+        },
+      },
+      {
+        breakpoint: 570,
+        options: {
+          chart: {
+            width: "150%",
+            height: "600px",
+          },
+          legend: {
+            position: "right",
+            offsetY: 0,
+            height: 150,
+            fontSize: "13px",
+          },
+        },
+      },
+      {
+        breakpoint: 490,
+        options: {
+          chart: {
+            width: "90%",
+            height: "600px",
+          },
+          legend: {
+            position: "bottom",
+            offsetY: 0,
+            height: 85,
+            fontSize: "13px",
           },
         },
       },
     ],
     legend: {
-      position: "right",
+      position: "bottom",
       offsetY: 0,
-      height: 400,
+      height: "25%",
       fontSize: "15px",
     },
   };
 
+  function chartValueFontColor() {
+    const black = ["ame"];
+    if (black.includes(location)) {
+      return "black";
+    } else {
+      return "white";
+    }
+  }
   return (
     <div>
-      <Box>
+      <Box
+        sx={{
+          ".apexcharts-tooltip span": {
+            color: `${chartValueFontColor()}`,
+          },
+        }}
+      >
         <ReactApexChart
           options={options}
           series={series}
           type="pie"
-          width={700}
+          width="125%"
+          height="600px"
         />
       </Box>
     </div>
