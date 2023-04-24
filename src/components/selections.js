@@ -6,12 +6,21 @@ import Box from "@mui/material/Box";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Slider from "@mui/material/Slider";
-import Stats from "./piechart";
+
 import TotalDeaths from "./total_deaths";
 import PieChart from "./piechart";
 import { createTheme } from "@mui/material/styles";
+import moment from "moment";
+import { useLocation } from "react-router-dom";
+
 const theme = createTheme();
+const apiKeyYT = process.env.REACT_APP_YOUTUBE_API_KEY;
+const apiKeyHolodex = process.env.REACT_APP_HOLODEX_API_KEY;
+const sheetID = process.env.REACT_APP_SHEET_ID;
+
 export default function Selections(props) {
+  const path = useLocation().pathname;
+  const location = path.split("/")[1];
   const ref = React.createRef();
   const [selected, setSelected] = useState("");
   const [sliderData, setSliderData] = useState([]);
@@ -23,7 +32,7 @@ export default function Selections(props) {
   const [npc, setNPC] = useState(false);
   const streams = props.stream;
   const links = props.link;
-  const sheetID = "1RbmeWv7zdmLIvQoOiKZYOkHlcMfBsMxs7nj5C2nCjYg";
+
   const handleChange = (e) => {
     const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=${
       props.name + (+[e] + 1)
@@ -36,6 +45,25 @@ export default function Selections(props) {
       });
   };
 
+  function borderColor() {
+    switch (location) {
+      case "ame":
+        return "#ffff00";
+      case "calli":
+        return "#ff0000";
+      case "gura":
+        return "#008ffb";
+      case "ina":
+        return "#9400d3";
+      case "irys":
+        return "#ff00ff";
+      case "kronii":
+        return "#0000ff";
+      default:
+        return "ONE";
+    }
+  }
+  // Get Video ID
   function getID(e) {
     let url = links[e].replace("watch?v=", "embed/");
     const id = url.split("/").pop();
@@ -43,26 +71,43 @@ export default function Selections(props) {
     getVideoDuration(id);
   }
 
-  const getVideoDuration = (id) => {
-    let url = `https://holodex.net/api/v2/videos/${id}`;
+  const getVideoDuration = async (id) => {
+    // Via Youtube API
+    const url = `https://www.googleapis.com/youtube/v3/videos?id=${id}&part=contentDetails&key=${apiKeyYT}`;
 
-    let options = {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-    };
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      const iso8601Duration = data.items[0].contentDetails.duration;
+      const secondsDuration = moment.duration(iso8601Duration).asSeconds();
+      setMax(secondsDuration);
+    } catch (error) {
+      console.error(error);
 
-    fetch(url, options)
-      .then((res) => res.json())
-      .then((json) => setMax(json.duration))
-      .catch((err) => console.error("error:" + err));
+      // If error, use Holodex API
+      const url = `https://holodex.net/api/v2/videos/${id}`;
+      const options = {
+        method: "GET",
+        headers: { Accept: "application/json", "X-APIKEY": apiKeyHolodex },
+      };
+
+      try {
+        const response = await fetch(url, options);
+        const data = await response.json();
+        const durationSeconds = data.duration;
+        setMax(durationSeconds);
+      } catch (error) {
+        console.error(error);
+      }
+    }
   };
 
   function handleResponse(csvText, e) {
-    let sheetObjects = csvToObjects(csvText, e);
+    csvToObjects(csvText, e);
   }
   function csvToObjects(csv, e) {
     const csvRows = csv.split("\n");
-    const propertyNames = csvSplit(csvRows[0]);
+
     let objects = [];
     let timestamp = [];
     let killah = [];
@@ -86,8 +131,11 @@ export default function Selections(props) {
     getID(e);
     setKillers(killah);
     setSliderData(objects);
+    setTotalDeaths(objects.length);
     setSelected(e);
-    setpermaURL(links[e].replace("watch?v=", "embed/"));
+    let ytURL = links[e].replace("watch?v=", "embed/") + "?rel=0";
+
+    setpermaURL(ytURL);
   }
 
   function csvSplit(row) {
@@ -99,7 +147,7 @@ export default function Selections(props) {
   }
   function valueLabelFormat(value) {
     let index = sliderData.findIndex((mark) => mark.value === value);
-    setTotalDeaths(sliderData.length);
+
     try {
       if (killers[index].includes("Boss")) {
         let death = killers[index].replace("Boss", "");
@@ -114,6 +162,7 @@ export default function Selections(props) {
     } catch (err) {}
   }
 
+  // For Slider Value Label BG Color
   const checkBoss = (e) => {
     let index = sliderData.findIndex((mark) => mark.value === e.target.value);
     ref.current.seekTo(e.target.value - 2);
@@ -130,236 +179,231 @@ export default function Selections(props) {
   };
 
   return (
-    <div>
-      <Box
-        className="container"
-        sx={{
-          display: "flex",
-          flexDirection: "row",
+    <Box
+      className="container"
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "flex-start",
+        justifyContent: "center",
+        width: "100%",
+        gap: "10px",
+        height: "100%",
+        [theme.breakpoints.down("1710")]: {
+          flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
+          gap: "20px",
+        },
+      }}
+    >
+      <Box
+        className="video-container"
+        sx={{
+          borderRadius: "10px",
+          padding: "20px 10px 10px",
+          border: `1px solid ${borderColor()}`,
+          backgroundColor: "#23242a",
+          width: "65%",
+          height: "592.5",
           [theme.breakpoints.down("1710")]: {
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
+            width: "97%",
+          },
+          [theme.breakpoints.down("435")]: {
+            width: "95%",
+            padding: 0,
           },
         }}
       >
-        <Box
-          sx={{
-            border: "2px solid #b9b9bb",
-            borderRadius: "10px",
-            padding: "20px 10px 10px",
-            width: "100%",
-            height: "592.5",
-            [theme.breakpoints.down("1710")]: {
-              width: "93vw",
-            },
-            [theme.breakpoints.down("550")]: {
-              paddingTop: "20px",
-              paddingLeft: "5px",
-              paddingRight: "5px",
-            },
-          }}
-        >
-          <div className="selection-player-timestamps">
+        <div className="selection-player-timestamps">
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+
+              [theme.breakpoints.down("850")]: {
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              },
+            }}
+          >
             <Box
               sx={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
+                marginBottom: "20px",
+                marginTop: "10px",
                 [theme.breakpoints.down("850")]: {
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  width: "auto",
                 },
               }}
             >
-              <Box
-                sx={{
-                  marginBottom: "20px",
-                  width: "300px",
-                  [theme.breakpoints.down("850")]: {
-                    width: "auto",
-                  },
+              <FormControl fullWidth>
+                <InputLabel
+                  sx={{ color: "white" }}
+                  id="demo-simple-select-label"
+                >
+                  Select Stream
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={selected}
+                  label="Select Stream"
+                  onChange={(e) => handleChange(e.target.value)}
+                  sx={{
+                    backgroundColor: "#2e2e2e",
+                    width: "175px",
+                    height: "60px",
+                    color: "rgb(220, 220, 220)",
+                  }}
+                >
+                  {streams.map((stream, index) => {
+                    return (
+                      <MenuItem key={index} value={index}>
+                        {stream}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </Box>
+            {totalDeaths ? <TotalDeaths deaths={totalDeaths} /> : null}
+            <Box
+              sx={{
+                ml: "auto",
+                [theme.breakpoints.down("850")]: {
+                  width: "auto",
+                },
+              }}
+            ></Box>{" "}
+            {/*JUST HERE TO CENTER THE TOTAL DEATH COUNT  */}
+          </Box>
+          {(selected || selected === 0) && sliderData ? (
+            <>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  position: "relative",
+                  paddingTop: "56.25%",
                 }}
               >
-                <FormControl fullWidth>
-                  <InputLabel
-                    sx={{ color: "white" }}
-                    id="demo-simple-select-label"
-                  >
-                    Select Stream
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={selected}
-                    label="Select Stream"
-                    onChange={(e) => handleChange(e.target.value)}
-                    sx={{
-                      backgroundColor: "#2e2e2e",
-                      width: "175px",
-                      height: "60px",
-                      color: "rgb(220, 220, 220)",
-                    }}
-                  >
-                    {streams.map((stream, index) => {
-                      return (
-                        <MenuItem key={index} value={index}>
-                          {stream}
-                        </MenuItem>
-                      );
-                    })}
-                  </Select>
-                </FormControl>
-              </Box>
-              {totalDeaths ? <TotalDeaths deaths={totalDeaths} /> : null}
+                <ReactPlayer
+                  ref={ref}
+                  url={permaURL}
+                  playing
+                  controls
+                  defaultValue={0}
+                  width="100%"
+                  height="100%"
+                  style={{
+                    border: "1px gray solid",
+                    borderRadius: "10px",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                  }}
+                />
+              </div>
               <Box
                 sx={{
-                  width: "300px",
-                  backgroundColor: "white",
-                  [theme.breakpoints.down("850")]: {
-                    width: "auto",
-                  },
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  marginTop: "20px",
                 }}
-              ></Box>{" "}
-              {/*JUST HERE TO CENTER THE TOTAL DEATH COUNT  */}
-            </Box>
-            {(selected || selected === 0) && sliderData ? (
-              <>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    position: "relative",
-                    paddingTop: "56.25%",
-                  }}
-                >
-                  <ReactPlayer
-                    ref={ref}
-                    url={permaURL}
-                    playing
-                    controls
-                    defaultValue={0}
-                    width="100%"
-                    height="100%"
-                    style={{
-                      border: "1px gray solid",
-                      borderRadius: "10px",
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                    }}
-                  />
-                </div>
-                <Box
-                  sx={{
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    marginTop: "20px",
-                  }}
-                >
-                  <Slider
-                    aria-label="Restricted values"
-                    valueLabelFormat={valueLabelFormat}
-                    getAriaValueText={valuetext}
-                    valueLabelDisplay="on"
-                    step={null}
-                    defaultValue={0}
-                    min={0}
-                    max={max}
-                    onChange={(e) => checkBoss(e)}
-                    marks={sliderData}
-                    track={false}
-                    sx={[
-                      {
-                        color: "rgba(0,0,0,0)",
-                        // backgroundColor: "#323233",
-                        width: "100%",
+              >
+                <Slider
+                  aria-label="Restricted values"
+                  valueLabelFormat={valueLabelFormat}
+                  getAriaValueText={valuetext}
+                  valueLabelDisplay="on"
+                  step={null}
+                  min={0}
+                  max={max}
+                  onChange={(e) => checkBoss(e)}
+                  marks={sliderData}
+                  track={false}
+                  sx={[
+                    {
+                      color: "rgba(0,0,0,0)",
+                      // backgroundColor: "#323233",
+                      width: "98%",
 
-                        "& .MuiSlider-mark": {
-                          backgroundColor: "red",
-                          height: "17px",
-                          width: "1px",
-                          borderRadius: "1px",
-                          "&:hover": {
-                            width: "2px",
-                            height: "20px",
-                          },
-                        },
-                        "& .MuiSlider-thumb": {
-                          color: "#b9b9bb",
-                          height: 25,
-                          width: "3px",
-                        },
-                        "& .MuiSlider-valueLabel": {
-                          backgroundColor: "gray",
+                      "& .MuiSlider-mark": {
+                        backgroundColor: "red",
+                        height: "17px",
+                        width: "1px",
+                        borderRadius: "1px",
+                        "&:hover": {
+                          width: "2px",
+                          height: "20px",
                         },
                       },
-                      boss && {
-                        "& .MuiSlider-valueLabel": {
-                          backgroundColor: "lightblue",
-                          color: "black",
-                        },
+                      "& .MuiSlider-thumb": {
+                        color: "#b9b9bb",
+                        height: 25,
+                        width: "3px",
                       },
-                      npc && {
-                        "& .MuiSlider-valueLabel": {
-                          backgroundColor: "green",
-                          color: "white",
-                        },
+                      "& .MuiSlider-valueLabel": {
+                        backgroundColor: "gray",
                       },
-                    ]}
-                  />
-                </Box>
-              </>
-            ) : (
-              <ReactPlayer
-                url=""
-                width="100%"
-                height="100%"
-                style={{ border: "1px gray solid", borderRadius: "10px" }}
-              />
-            )}
-          </div>
-        </Box>
-        {/* <Box
+                    },
+                    boss && {
+                      "& .MuiSlider-valueLabel": {
+                        backgroundColor: "lightblue",
+                        color: "black",
+                      },
+                    },
+                    npc && {
+                      "& .MuiSlider-valueLabel": {
+                        backgroundColor: "green",
+                        color: "white",
+                      },
+                    },
+                  ]}
+                />
+              </Box>
+            </>
+          ) : (
+            <ReactPlayer
+              url=""
+              width="100%"
+              height="100%"
+              style={{ border: "1px gray solid", borderRadius: "10px" }}
+            />
+          )}
+        </div>
+      </Box>
+
+      {/* PIECHART */}
+      {(selected || selected === 0) && sliderData ? (
+        <Box
           sx={{
-            width: "700px",
-            maxHeight: "450px",
-            marginLeft: "25px",
-            [theme.breakpoints.down("1850")]: {
-              width: "700px",
-            },
-            [theme.breakpoints.down("1790")]: {
-              width: "610px",
-            },
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            border: `1px solid ${borderColor()}`,
+            backgroundColor: "#23242a",
+            borderRadius: "10px",
+            padding: "20px 10px 10px",
+            width: "35%",
+            height: "100%",
+            marginBottom: "40px",
             [theme.breakpoints.down("1710")]: {
-              marginTop: "10px",
-              marginLeft: "0",
-              width: "619px",
+              width: "97%",
+            },
+            [theme.breakpoints.down("435")]: {
+              width: "95%",
+              padding: 0,
             },
           }}
         >
-          {(selected || selected === 0) && sliderData ? (
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                border: "2px solid #b9b9bb",
-                borderRadius: "10px",
-                padding: "5px",
-              }}
-            >
-              <PieChart sheet={sheetID} selected={selected} name={props.name} />
-            </Box>
-          ) : null}
-        </Box> */}
-      </Box>
-    </div>
+          <PieChart selected={selected} name={props.name} />
+        </Box>
+      ) : null}
+    </Box>
   );
 }

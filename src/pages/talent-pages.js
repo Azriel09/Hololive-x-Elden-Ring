@@ -8,7 +8,7 @@ import TalentCard from "../components/talentCard";
 
 export function Ame() {
   return (
-    <div>
+    <div className="talent-page-container">
       <TalentCard name="Ame" fname="Watson Amelia" />
     </div>
   );
@@ -16,30 +16,24 @@ export function Ame() {
 
 export function Calli() {
   return (
-    <div>
-      <div>
-        <TalentCard name="Calli" fname="Mori Calliope" />
-      </div>
+    <div className="talent-page-container">
+      <TalentCard name="Calli" fname="Mori Calliope" />
     </div>
   );
 }
 
 export function Gura() {
   return (
-    <div>
-      <div>
-        <TalentCard name="Gura" fname="Gawr Gura" />
-      </div>
+    <div className="talent-page-container">
+      <TalentCard name="Gura" fname="Gawr Gura" />
     </div>
   );
 }
 
 export function Ina() {
   return (
-    <div>
-      <div>
-        <TalentCard name="Ina" fname="Ninomae Ina'nis" />
-      </div>
+    <div className="talent-page-container">
+      <TalentCard name="Ina" fname="Ninomae Ina'nis" />
     </div>
   );
 }

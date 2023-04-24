@@ -6,13 +6,21 @@
 h1 {
   color: white;
 }
+@media only screen and (max-width: 1710px) {
+  .talent-page-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
 
 .talent {
   /* border-bottom: 3px solid rgba(95, 220, 238, 0.5); */
   border-radius: 0px 20px 20px;
-  min-width: 100%;
-  height: 90vh;
-  margin: 0 25px 25px 25px;
+  min-width: 96.5vw;
+  min-height: 100%;
+  margin: 0 25px 0px 25px;
 }
 
 @media only screen and (max-width: 1710px) {
@@ -54,6 +62,12 @@ h1 {
 @media only screen and (max-width: 430px) {
   .talent div h1 {
     text-align: center;
+  }
+}
+
+@media only screen and (max-width: 280px) {
+  .talent div h1 {
+    font-size: 2em;
   }
 }
 

@@ -3,12 +3,13 @@ import Selections from "./selections";
 import "./css/loading.css";
 import Box from "@mui/material/Box";
 import PieChart from "./piechart";
+const sheetID = process.env.REACT_APP_SHEET_ID;
+
 export default function GetData(props) {
   const [loading, setLoading] = useState(false);
   const [streams, setStreams] = useState([]);
   const [deaths, setDeaths] = useState([]);
   const [links, setLinks] = useState([]);
-  const sheetID = "1RbmeWv7zdmLIvQoOiKZYOkHlcMfBsMxs7nj5C2nCjYg";
   const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=${`All_${props.name}`}`;
 
   useEffect(() => {
@@ -64,7 +65,10 @@ export default function GetData(props) {
   } else {
     return (
       <div>
-        <Box className="getData-container" sx={{}}>
+        <Box
+          className="getData-container"
+          sx={{ width: "100%", height: "100%" }}
+        >
           <Selections
             name={props.name}
             stream={streams}
