@@ -50,7 +50,7 @@ function SideNav() {
   const { toggleSidebar } = useProSidebar();
   const path = useLocation().pathname;
   const location = path.split("/")[1];
-
+  console.log(location);
   return (
     <div className={"sidenav " + location}>
       <Sidebar

@@ -14,9 +14,9 @@ import moment from "moment";
 import { useLocation } from "react-router-dom";
 
 const theme = createTheme();
-const apiKeyYT = process.env.REACT_APP_YOUTUBE_API_KEY;
-const apiKeyHolodex = process.env.REACT_APP_HOLODEX_API_KEY;
-const sheetID = process.env.REACT_APP_SHEET_ID;
+const apiKeyYT = import.meta.env.VITE_YOUTUBE_API_KEY;
+const apiKeyHolodex = import.meta.env.VITE_HOLODEX_API_KEY;
+const sheetID = import.meta.env.VITE_SHEET_ID;
 
 export default function Selections(props) {
   const path = useLocation().pathname;
@@ -30,10 +30,12 @@ export default function Selections(props) {
   const [totalDeaths, setTotalDeaths] = useState();
   const [boss, setBoss] = useState(false);
   const [npc, setNPC] = useState(false);
+  const [autoplay, setAutoplay] = useState(false);
   const streams = props.stream;
   const links = props.link;
 
   const handleChange = (e) => {
+    setAutoplay(false);
     const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=${
       props.name + (+[e] + 1)
     }`;
@@ -164,6 +166,7 @@ export default function Selections(props) {
 
   // For Slider Value Label BG Color
   const checkBoss = (e) => {
+    setAutoplay(true);
     let index = sliderData.findIndex((mark) => mark.value === e.target.value);
     ref.current.seekTo(e.target.value - 2);
     if (killers[index].includes("Boss")) {
@@ -186,9 +189,11 @@ export default function Selections(props) {
         flexDirection: "row",
         alignItems: "flex-start",
         justifyContent: "center",
+        backgroundColor: "#2f3042",
+        borderRadius: "15px",
         width: "100%",
         gap: "10px",
-        height: "100%",
+        height: "50%",
         [theme.breakpoints.down("1710")]: {
           flexDirection: "column",
           alignItems: "center",
@@ -201,10 +206,10 @@ export default function Selections(props) {
         sx={{
           borderRadius: "10px",
           padding: "20px 10px 10px",
-          border: `1px solid ${borderColor()}`,
-          backgroundColor: "#23242a",
+          // border: `1px solid ${borderColor()}`,
+          // backgroundColor: "#23242a",
           width: "65%",
-          height: "592.5",
+          height: "555px",
           [theme.breakpoints.down("1710")]: {
             width: "97%",
           },
@@ -296,11 +301,11 @@ export default function Selections(props) {
                 <ReactPlayer
                   ref={ref}
                   url={permaURL}
-                  playing
+                  playing={autoplay}
                   controls
                   defaultValue={0}
-                  width="100%"
-                  height="100%"
+                  width="90%"
+                  height="90%"
                   style={{
                     border: "1px gray solid",
                     borderRadius: "10px",
@@ -334,7 +339,7 @@ export default function Selections(props) {
                     {
                       color: "rgba(0,0,0,0)",
                       // backgroundColor: "#323233",
-                      width: "98%",
+                      width: "99%",
 
                       "& .MuiSlider-mark": {
                         backgroundColor: "red",
@@ -390,8 +395,8 @@ export default function Selections(props) {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            border: `1px solid ${borderColor()}`,
-            backgroundColor: "#23242a",
+            // border: `1px solid ${borderColor()}`,
+            // backgroundColor: "#23242a",
             borderRadius: "10px",
             padding: "20px 10px 10px",
             width: "35%",
