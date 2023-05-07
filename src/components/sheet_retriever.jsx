@@ -3,7 +3,7 @@ import Selections from "./selections";
 import "./css/loading.css";
 import Box from "@mui/material/Box";
 import PieChart from "./piechart";
-const sheetID = process.env.REACT_APP_SHEET_ID;
+const sheetID = import.meta.env.VITE_SHEET_ID;
 
 export default function GetData(props) {
   const [loading, setLoading] = useState(false);

@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import ReactApexChart from "react-apexcharts";
 import { useLocation } from "react-router-dom";
 
-const sheetID = process.env.REACT_APP_SHEET_ID;
+const sheetID = import.meta.env.VITE_SHEET_ID;
 export default function PieChart(props) {
   const path = useLocation().pathname;
   const location = path.split("/")[1];
@@ -53,6 +53,7 @@ export default function PieChart(props) {
     }
     countOccurences(killer);
   }
+
   // Idk what this specifically do, I just copied it, something something that formats the spreadsheet data to be readable
   function csvSplit(row) {
     return row.split(",").map((val) => val.substring(1, val.length - 1));
@@ -76,7 +77,7 @@ export default function PieChart(props) {
       Object.entries(count).sort(([, a], [, b]) => b - a)
     );
     for (const [key, value] of Object.entries(sortable)) {
-      const tempoKey = `(${value}) ` + key;
+      const tempoKey = key;
       if (tempoKey.includes("Boss")) {
         let tempoBoss = tempoKey.replace("Boss", "");
         tempoUnique.push(tempoBoss);
@@ -90,6 +91,7 @@ export default function PieChart(props) {
     }
     setUnique(tempoUnique);
     setSeries(tempoSeries);
+    console.log(tempoUnique);
   }
 
   function chartColor() {
@@ -111,11 +113,24 @@ export default function PieChart(props) {
     }
   }
 
+  function chartValueFontColor() {
+    const black = ["ame"];
+    if (black.includes(location)) {
+      return "black";
+    } else {
+      return "white";
+    }
+  }
+  const barSeries = [
+    {
+      data: series,
+    },
+  ];
   //Chart Config
   const options = {
     chart: {
       width: 300,
-      type: "pie",
+      type: "bar",
       foreColor: "#b9b9bb",
     },
     labels: unique,
@@ -271,14 +286,169 @@ export default function PieChart(props) {
     },
   };
 
-  function chartValueFontColor() {
-    const black = ["ame"];
-    if (black.includes(location)) {
-      return "black";
-    } else {
-      return "white";
-    }
-  }
+  const barOptions = {
+    chart: {
+      type: "bar",
+      height: 350,
+      width: 1000,
+      foreColor: "white",
+    },
+    plotOptions: {
+      bar: {
+        borderRadius: 4,
+        horizontal: true,
+        height: "100%",
+        dataLabels: {
+          position: "bottom",
+        },
+      },
+    },
+    dataLabels: {
+      enabled: true,
+      textAnchor: "start",
+      style: {
+        colors: [`#FFF`],
+        textAlign: "center",
+        fontSize: "1.5em",
+      },
+      formatter: function (val, opt) {
+        return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val;
+      },
+      offsetX: 0,
+    },
+    xaxis: {
+      categories: unique,
+    },
+    yaxis: {
+      labels: {
+        show: false,
+      },
+    },
+    colors: "gray",
+    tooltip: {
+      theme: "light",
+      x: {
+        show: false,
+      },
+      y: {
+        title: {
+          formatter: function () {
+            return "";
+          },
+        },
+      },
+    },
+    responsive: [
+      {
+        breakpoint: 1921,
+        options: {
+          chart: {
+            height: "700px",
+            width: "185%",
+            position: "bottom",
+          },
+          legend: {
+            position: "bottom",
+            offsetY: 0,
+            height: 110,
+
+            fontSize: "15px",
+          },
+        },
+      },
+      {
+        breakpoint: 1710,
+        options: {
+          chart: {
+            width: "250%",
+            height: "600px",
+          },
+          legend: {
+            position: "right",
+            offsetY: 0,
+            height: 300,
+            fontSize: "25px",
+          },
+        },
+      },
+      {
+        breakpoint: 1130,
+        options: {
+          chart: {
+            width: "200%",
+            height: "500px",
+          },
+          legend: {
+            position: "right",
+            offsetY: 0,
+            height: 220,
+            fontSize: "20px",
+          },
+        },
+      },
+      {
+        breakpoint: 700,
+        options: {
+          chart: {
+            width: "200%",
+            height: "500px",
+          },
+          legend: {
+            position: "right",
+            offsetY: 0,
+            height: 225,
+            fontSize: "15px",
+          },
+        },
+      },
+      {
+        breakpoint: 650,
+        options: {
+          chart: {
+            width: "175%",
+            height: "500px",
+          },
+          legend: {
+            position: "right",
+            offsetY: 0,
+            height: 225,
+            fontSize: "15px",
+          },
+        },
+      },
+      {
+        breakpoint: 570,
+        options: {
+          chart: {
+            width: "150%",
+            height: "600px",
+          },
+          legend: {
+            position: "right",
+            offsetY: 0,
+            height: 150,
+            fontSize: "13px",
+          },
+        },
+      },
+      {
+        breakpoint: 490,
+        options: {
+          chart: {
+            width: "90%",
+            height: "600px",
+          },
+          legend: {
+            position: "bottom",
+            offsetY: 0,
+            height: 85,
+            fontSize: "13px",
+          },
+        },
+      },
+    ],
+  };
+
   return (
     <div>
       <Box
@@ -286,14 +456,23 @@ export default function PieChart(props) {
           ".apexcharts-tooltip span": {
             color: `${chartValueFontColor()}`,
           },
+          ".apexcharts-data-labels": {
+            marginTop: "10px",
+          },
+          "#SvgjsG1551": {
+            marginTop: "10px",
+          },
+
+          marginTop: "60px",
         }}
       >
         <ReactApexChart
-          options={options}
-          series={series}
-          type="pie"
-          width="125%"
+          options={barOptions}
+          series={barSeries}
+          type="bar"
+          width="175%"
           height="600px"
+          style={{}}
         />
       </Box>
     </div>

@@ -12,13 +12,26 @@
 }
 
 .ame {
-  background-image: url("../../images/bg/ame.jpg");
+  /* background-image: url("../../images/bg/ame.jpg"); */
+  background-color: #1e1d2b;
 }
 
 .gura {
   background-image: url("../../images/bg/gura.jpg");
 }
 
-.individual {
-  background-image: url("../../images/bg/gura.jpg");
+.kronii {
+  background-image: url("../../images/bg/kronii.jpg");
+}
+
+.calli {
+  background-image: url("../../images/bg/calli.jpg");
+}
+
+.irys {
+  background-image: url("../../images/bg/irys.jpg");
+}
+
+.ina {
+  background-image: url("../../images/bg/ina.jpg");
 }
