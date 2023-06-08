@@ -192,6 +192,30 @@ function SideNav() {
             <MenuItem icon={<LamyIcon />}>Yukihana Lamy</MenuItem>
           </SubMenu>
           <MenuItem disabled></MenuItem>
+          <Typography
+            sx={{
+              backgroundColor: "rgba(28, 29, 33, 1)",
+              color: "#b9b9bb",
+              fontSize: "12px",
+              lineHeight: "18px",
+              letterSpacing: "0.5px",
+              fontWeight: "600",
+              paddingLeft: "30px",
+            }}
+          >
+            Statistics
+          </Typography>
+          <MenuItem>
+            <Typography sx={{ fontWeight: "bold", letterSpacing: "1px" }}>
+              BY BOSS
+            </Typography>
+          </MenuItem>
+          <MenuItem>
+            {" "}
+            <Typography sx={{ fontWeight: "bold", letterSpacing: "1px" }}>
+              BY HOLOMEM
+            </Typography>
+          </MenuItem>
         </Menu>
       </Sidebar>
 

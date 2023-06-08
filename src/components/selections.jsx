@@ -188,8 +188,8 @@ export default function Selections(props) {
         display: "flex",
         flexDirection: "row",
         alignItems: "flex-start",
-        justifyContent: "center",
-        backgroundColor: "#2f3042",
+
+        backdropFilter: "blur(6px)",
         borderRadius: "15px",
         width: "100%",
         gap: "10px",
@@ -209,13 +209,10 @@ export default function Selections(props) {
           // border: `1px solid ${borderColor()}`,
           // backgroundColor: "#23242a",
           width: "65%",
-          height: "555px",
+          height: "592.5px",
           [theme.breakpoints.down("1710")]: {
             width: "97%",
-          },
-          [theme.breakpoints.down("435")]: {
-            width: "95%",
-            padding: 0,
+            height: "100%",
           },
         }}
       >
@@ -304,11 +301,9 @@ export default function Selections(props) {
                   playing={autoplay}
                   controls
                   defaultValue={0}
-                  width="90%"
-                  height="90%"
+                  width="100%"
+                  height="100%"
                   style={{
-                    border: "1px gray solid",
-                    borderRadius: "10px",
                     position: "absolute",
                     top: 0,
                     left: 0,
@@ -339,7 +334,7 @@ export default function Selections(props) {
                     {
                       color: "rgba(0,0,0,0)",
                       // backgroundColor: "#323233",
-                      width: "99%",
+                      width: "98%",
 
                       "& .MuiSlider-mark": {
                         backgroundColor: "red",
@@ -400,15 +395,19 @@ export default function Selections(props) {
             borderRadius: "10px",
             padding: "20px 10px 10px",
             width: "35%",
-            height: "100%",
+            height: "50vh",
             marginBottom: "40px",
             [theme.breakpoints.down("1710")]: {
               width: "97%",
+              height: "150%",
+            },
+            [theme.breakpoints.down("1370")]: {
+              marginTop: 0,
             },
             [theme.breakpoints.down("435")]: {
               width: "95%",
-              padding: 0,
             },
+            marginTop: "17vh",
           }}
         >
           <PieChart selected={selected} name={props.name} />
