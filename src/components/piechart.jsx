@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Box from "@mui/material/Box";
+import { Box, ListItem, ListItemText, List } from "@mui/material/";
 import ReactApexChart from "react-apexcharts";
 import { useLocation } from "react-router-dom";
-
+import "./css/font.css";
 const sheetID = import.meta.env.VITE_SHEET_ID;
 export default function PieChart(props) {
   const path = useLocation().pathname;
@@ -92,6 +92,7 @@ export default function PieChart(props) {
     setUnique(tempoUnique);
     setSeries(tempoSeries);
     console.log(tempoUnique);
+    console.log(tempoSeries);
   }
 
   function chartColor() {
@@ -292,6 +293,7 @@ export default function PieChart(props) {
       height: 350,
       width: 1000,
       foreColor: "white",
+      fontFamily: "Elden Ring",
     },
     plotOptions: {
       bar: {
@@ -325,19 +327,7 @@ export default function PieChart(props) {
       },
     },
     colors: "gray",
-    tooltip: {
-      theme: "light",
-      x: {
-        show: false,
-      },
-      y: {
-        title: {
-          formatter: function () {
-            return "";
-          },
-        },
-      },
-    },
+
     responsive: [
       {
         breakpoint: 1921,
@@ -347,27 +337,19 @@ export default function PieChart(props) {
             width: "185%",
             position: "bottom",
           },
-          legend: {
-            position: "bottom",
-            offsetY: 0,
-            height: 110,
-
-            fontSize: "15px",
-          },
         },
       },
       {
         breakpoint: 1710,
         options: {
           chart: {
-            width: "250%",
+            width: "270%",
             height: "600px",
           },
-          legend: {
-            position: "right",
-            offsetY: 0,
-            height: 300,
-            fontSize: "25px",
+          dataLabels: {
+            style: {
+              fontSize: "1.5em",
+            },
           },
         },
       },
@@ -375,14 +357,13 @@ export default function PieChart(props) {
         breakpoint: 1130,
         options: {
           chart: {
-            width: "200%",
+            width: "210%",
             height: "500px",
           },
-          legend: {
-            position: "right",
-            offsetY: 0,
-            height: 220,
-            fontSize: "20px",
+          dataLabels: {
+            style: {
+              fontSize: "1.5em",
+            },
           },
         },
       },
@@ -393,12 +374,6 @@ export default function PieChart(props) {
             width: "200%",
             height: "500px",
           },
-          legend: {
-            position: "right",
-            offsetY: 0,
-            height: 225,
-            fontSize: "15px",
-          },
         },
       },
       {
@@ -407,12 +382,6 @@ export default function PieChart(props) {
           chart: {
             width: "175%",
             height: "500px",
-          },
-          legend: {
-            position: "right",
-            offsetY: 0,
-            height: 225,
-            fontSize: "15px",
           },
         },
       },
@@ -423,11 +392,10 @@ export default function PieChart(props) {
             width: "150%",
             height: "600px",
           },
-          legend: {
-            position: "right",
-            offsetY: 0,
-            height: 150,
-            fontSize: "13px",
+          dataLabels: {
+            style: {
+              fontSize: "1.3em",
+            },
           },
         },
       },
@@ -435,14 +403,27 @@ export default function PieChart(props) {
         breakpoint: 490,
         options: {
           chart: {
-            width: "90%",
-            height: "600px",
+            width: "115%",
+            height: "400px",
           },
-          legend: {
-            position: "bottom",
-            offsetY: 0,
-            height: 85,
-            fontSize: "13px",
+          dataLabels: {
+            style: {
+              fontSize: "1.2em",
+            },
+          },
+        },
+      },
+      {
+        breakpoint: 365,
+        options: {
+          chart: {
+            width: "90%",
+            height: "400px",
+          },
+          dataLabels: {
+            style: {
+              fontSize: "1.2em",
+            },
           },
         },
       },
@@ -451,6 +432,7 @@ export default function PieChart(props) {
 
   return (
     <div>
+      {" "}
       <Box
         sx={{
           ".apexcharts-tooltip span": {
@@ -462,8 +444,6 @@ export default function PieChart(props) {
           "#SvgjsG1551": {
             marginTop: "10px",
           },
-
-          marginTop: "60px",
         }}
       >
         <ReactApexChart

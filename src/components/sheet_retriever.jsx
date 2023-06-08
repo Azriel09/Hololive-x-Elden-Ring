@@ -67,7 +67,7 @@ export default function GetData(props) {
       <div>
         <Box
           className="getData-container"
-          sx={{ width: "100%", height: "100%" }}
+          sx={{ width: "95%", height: "100%", ml: "auto", mr: "auto" }}
         >
           <Selections
             name={props.name}

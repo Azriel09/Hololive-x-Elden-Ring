@@ -14,6 +14,7 @@ export default function TalentCard(props) {
           display: "flex",
           flexDirection: "row",
           marginBottom: "20px",
+          width: "75%",
         }}
       >
         <IconButton aria-label="Example" onClick={() => toggleSidebar()}>
