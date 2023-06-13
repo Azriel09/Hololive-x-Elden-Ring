@@ -172,6 +172,7 @@ export default function PieChart(props) {
         return opts.w.config.series[opts.seriesIndex];
       },
     },
+
     responsive: [
       {
         breakpoint: 1921,
