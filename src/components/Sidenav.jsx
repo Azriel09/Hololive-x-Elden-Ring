@@ -14,6 +14,7 @@ import {
   Kronii,
   Home,
 } from "../pages/talent-pages";
+import { BossPage } from "../pages/boss";
 import {
   Sidebar,
   Menu,
@@ -205,16 +206,15 @@ function SideNav() {
           >
             Statistics
           </Typography>
-          <MenuItem>
-            <Typography sx={{ fontWeight: "bold", letterSpacing: "1px" }}>
-              BY BOSS
-            </Typography>
+          <MenuItem
+            onClick={() => toggleSidebar()}
+            component={<Link to="/boss" />}
+          >
+            <Typography sx={{ letterSpacing: "1px" }}>By Boss</Typography>
           </MenuItem>
           <MenuItem>
             {" "}
-            <Typography sx={{ fontWeight: "bold", letterSpacing: "1px" }}>
-              BY HOLOMEM
-            </Typography>
+            <Typography sx={{ letterSpacing: "1px" }}>By Holomem</Typography>
           </MenuItem>
         </Menu>
       </Sidebar>
@@ -227,6 +227,7 @@ function SideNav() {
         <Route path="/ina" element={<Ina />} />
         <Route path="/irys" element={<Irys />} />
         <Route path="/kronii" element={<Kronii />} />
+        <Route path="/boss" element={<BossPage />} />
       </Routes>
     </div>
   );

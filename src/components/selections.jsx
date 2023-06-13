@@ -239,15 +239,8 @@ export default function Selections(props) {
               }}
             >
               <FormControl fullWidth>
-                <InputLabel
-                  sx={{ color: "white" }}
-                  id="demo-simple-select-label"
-                >
-                  Select Stream
-                </InputLabel>
+                <InputLabel sx={{ color: "white" }}>Select Stream</InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
                   value={selected}
                   label="Select Stream"
                   onChange={(e) => handleChange(e.target.value)}
