@@ -5,7 +5,7 @@ const bossSheetID = import.meta.env.VITE_SHEET_ID_BOSS;
 
 export default function BossRetriever() {
   const bosslist = [
-    "Tree_Sentinel",
+    "Tree Sentinel",
     "Margit",
     "Godrick",
     "Wolf of Radagon",
@@ -18,15 +18,14 @@ export default function BossRetriever() {
     "Fire Giant",
     "Malenia",
     "Godskin Duo",
+    "Mohg",
     "Maliketh",
     "Gideon",
     "Godfrey",
     "Radagon",
     "Elden Beast",
-    "",
-    "",
   ];
-  const [selectedboss, setSelectedBoss] = useState("");
+  const [selectedboss, setSelectedBoss] = useState("Tree Sentinel");
   const [holomem, setHolomem] = useState([]);
   const [deaths, setDeaths] = useState([]);
 
@@ -84,45 +83,15 @@ export default function BossRetriever() {
   };
   return (
     <div>
-      {/* <FormControl fullWidth>
-        <InputLabel sx={{ color: "white" }}>Select Boss</InputLabel>
-        <Select
-          value={selectedboss}
-          label="Select Stream"
-          onChange={(e) => handleChange(e.target.value)}
-          MenuProps={{
-            style: {
-              maxHeight: 500,
-            },
-          }}
-          sx={{
-            backgroundColor: "#2e2e2e",
-            width: "175px",
-            height: "60px",
-            color: "rgb(220, 220, 220)",
-          }}
-        >
-          {bosslist.map((boss, index) => {
-            return (
-              <MenuItem key={index} value={boss}>
-                {boss}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl> */}
-      <SwiperBoss />
-      {selectedboss ? (
-        <>
-          {holomem.map((name, index) => {
-            return (
-              <h2 key={index} style={{ color: "white" }}>
-                {name}: {deaths[index]}
-              </h2>
-            );
-          })}
-        </>
-      ) : null}
+      <SwiperBoss listBoss={bosslist} selectBoss={setSelectedBoss} />
+
+      {holomem.map((name, index) => {
+        return (
+          <h2 key={index} style={{ color: "white" }}>
+            {name}: {deaths[index]}
+          </h2>
+        );
+      })}
     </div>
   );
 }
