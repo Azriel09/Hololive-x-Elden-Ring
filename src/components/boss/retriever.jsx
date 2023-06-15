@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Box, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import SwiperBoss from "./swiper";
+import Loading from "../loading";
+
 const bossSheetID = import.meta.env.VITE_SHEET_ID_BOSS;
 
 export default function BossRetriever() {
@@ -28,11 +30,11 @@ export default function BossRetriever() {
   const [selectedboss, setSelectedBoss] = useState("Tree Sentinel");
   const [holomem, setHolomem] = useState([]);
   const [deaths, setDeaths] = useState([]);
-
+  const [loading, setLoading] = useState();
   const sheetURL = `https://docs.google.com/spreadsheets/d/${bossSheetID}/gviz/tq?tqx=out:csv&sheet=${selectedboss}`;
 
   useEffect(() => {
-    // setLoading(true);
+    setLoading(true);
     console.log("useEffect");
     console.log(selectedboss);
     fetch(sheetURL)
@@ -71,6 +73,7 @@ export default function BossRetriever() {
     if (selectedboss) {
       setHolomem(firstColumn);
       setDeaths(secondColumn);
+      setLoading(false);
     }
   }
 
@@ -78,20 +81,20 @@ export default function BossRetriever() {
     return row.split(",").map((val) => val.substring(1, val.length - 1));
   }
 
-  const handleChange = (e) => {
-    setSelectedBoss(e);
-  };
   return (
     <div>
       <SwiperBoss listBoss={bosslist} selectBoss={setSelectedBoss} />
-
-      {holomem.map((name, index) => {
-        return (
-          <h2 key={index} style={{ color: "white" }}>
-            {name}: {deaths[index]}
-          </h2>
-        );
-      })}
+      {loading ? (
+        <Loading />
+      ) : (
+        holomem.map((name, index) => {
+          return (
+            <h2 key={index} style={{ color: "white" }}>
+              {name}: {deaths[index]}
+            </h2>
+          );
+        })
+      )}
     </div>
   );
 }
