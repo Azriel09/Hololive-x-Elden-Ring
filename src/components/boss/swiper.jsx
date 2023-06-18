@@ -6,6 +6,7 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
+
 import { Box, Typography } from "@mui/material";
 import "../css/font.css";
 import {
@@ -30,8 +31,7 @@ import {
   Beast,
 } from "./boss_images";
 export default function SwiperBoss({ listBoss, selectBoss }) {
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  const [currentSlide, setCurrentSlide] = useState(0);
+  // Sets the current selected boss
   const handleChange = (e) => {
     const slide = e.realIndex;
     selectBoss(listBoss[slide]);
@@ -80,72 +80,78 @@ export default function SwiperBoss({ listBoss, selectBoss }) {
         return Beast();
     }
   };
+
   return (
     <Box
       sx={{
-        height: "60vh",
-        width: "50vw",
-        mt: "5vh",
+        width: "90vw",
+        height: "50%",
       }}
     >
       <Swiper
         style={{
           "--swiper-navigation-color": "white",
-          "--swiper-pagination-color": "green",
+          width: "90%",
         }}
         onSlideChange={(e) => handleChange(e)}
+        slidesPerView={"auto"}
+        slideToClickedSlide={true}
         spaceBetween={10}
         navigation={true}
         loop={true}
-        thumbs={{ swiper: thumbsSwiper }}
         modules={[FreeMode, Navigation, Thumbs]}
         className="mySwiper2"
+        centeredSlides={true}
       >
         {listBoss.map((boss, index) => {
           return (
             <SwiperSlide
-              style={{ backgroundColor: "rgba(0,0,0,0)" }}
+              style={{
+                backgroundColor: "rgba(0,0,0,0)",
+                width: "225px",
+                height: "375px",
+                position: "relative",
+                "&Active": {
+                  opacity: 1,
+                },
+                cursor: "pointer",
+              }}
               key={index}
+              className="swiper-slide"
             >
-              {/* <Typography
-                sx={{
-                  fontFamily: "Elden Ring",
-                  fontSize: "1.5em",
-                  color: "white",
-                }}
-              >
-                {boss}
-              </Typography> */}
-              <img src={BossImage(index)} style={{ borderRadius: "10px" }} />
-            </SwiperSlide>
-          );
-        })}
-      </Swiper>
-      <Swiper
-        onSwiper={setThumbsSwiper}
-        spaceBetween={10}
-        slidesPerView={5}
-        freeMode={true}
-        loop={true}
-        watchSlidesProgress={true}
-        modules={[FreeMode, Navigation, Thumbs]}
-        className="mySwiper"
-      >
-        {listBoss.map((boss, index) => {
-          return (
-            <SwiperSlide
-              style={{ backgroundColor: "rgba(0,0,0,0)" }}
-              key={index}
-            >
-              <Typography
-                sx={{
-                  fontFamily: "Elden Ring",
-                  fontSize: "1.5em",
-                  color: "white",
-                }}
-              >
-                {boss}
-              </Typography>
+              {({ isActive }) => (
+                <>
+                  <Typography
+                    sx={{
+                      fontFamily: "Elden Ring",
+                      fontSize: "1.9em",
+                      color: "lightgray",
+                      position: "absolute",
+                      textShadow: "3px 3px #000",
+                      textAlign: "left",
+                    }}
+                  >
+                    {boss}
+                  </Typography>
+                  {isActive ? (
+                    <img
+                      src={BossImage(index)}
+                      style={{
+                        borderRadius: "10px",
+                        opacity: "1",
+                      }}
+                    />
+                  ) : (
+                    <img
+                      src={BossImage(index)}
+                      style={{
+                        borderRadius: "10px",
+                        opacity: "0.4",
+                      }}
+                    />
+                  )}
+                </>
+              )}
             </SwiperSlide>
           );
         })}

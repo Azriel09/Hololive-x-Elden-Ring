@@ -58,7 +58,13 @@ function SideNav() {
         backgroundColor="rgba(28, 29, 33, 1)"
         breakPoint="always"
         width="350px"
-        style={{ borderRightWidth: "0" }}
+        style={{
+          borderRightWidth: "0",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       >
         <Menu
           menuItemStyles={{

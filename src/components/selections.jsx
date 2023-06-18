@@ -188,7 +188,6 @@ export default function Selections(props) {
         display: "flex",
         flexDirection: "row",
         alignItems: "flex-start",
-
         backdropFilter: "blur(6px)",
         borderRadius: "15px",
         width: "100%",
