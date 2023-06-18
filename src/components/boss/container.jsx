@@ -2,11 +2,11 @@ import { IconButton } from "@mui/material";
 import { useProSidebar } from "react-pro-sidebar";
 import CoverIcon from "../../images/cover-icon.png";
 import BossRetriever from "./retriever";
-
+import "../css/page.css";
 export default function BossContainer() {
   const { toggleSidebar } = useProSidebar();
   return (
-    <div>
+    <div className="boss-container">
       <div
         style={{
           height: "100px",
@@ -23,8 +23,8 @@ export default function BossContainer() {
             style={{ borderRadius: "50%", width: "75px", height: "75px" }}
           />
         </IconButton>
-        <BossRetriever />
       </div>
+      <BossRetriever />
     </div>
   );
 }

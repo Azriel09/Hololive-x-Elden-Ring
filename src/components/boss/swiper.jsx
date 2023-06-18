@@ -6,6 +6,7 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
+
 import { Box, Typography } from "@mui/material";
 import "../css/font.css";
 import {
@@ -30,8 +31,8 @@ import {
   Beast,
 } from "./boss_images";
 export default function SwiperBoss({ listBoss, selectBoss }) {
+  // Sets the current selected boss
   const handleChange = (e) => {
-    console.log(e);
     const slide = e.realIndex;
     selectBoss(listBoss[slide]);
   };
@@ -79,20 +80,22 @@ export default function SwiperBoss({ listBoss, selectBoss }) {
         return Beast();
     }
   };
+
   return (
     <Box
       sx={{
-        height: "70vh",
-        width: "70vw",
-        mt: "5vh",
+        width: "90vw",
+        height: "50%",
       }}
     >
       <Swiper
         style={{
           "--swiper-navigation-color": "white",
+          width: "90%",
         }}
         onSlideChange={(e) => handleChange(e)}
         slidesPerView={"auto"}
+        slideToClickedSlide={true}
         spaceBetween={10}
         navigation={true}
         loop={true}
@@ -105,12 +108,13 @@ export default function SwiperBoss({ listBoss, selectBoss }) {
             <SwiperSlide
               style={{
                 backgroundColor: "rgba(0,0,0,0)",
-                width: "300px",
-                height: "500px",
+                width: "225px",
+                height: "375px",
                 position: "relative",
                 "&Active": {
-                  opacity: 1, //
+                  opacity: 1,
                 },
+                cursor: "pointer",
               }}
               key={index}
               className="swiper-slide"
@@ -120,10 +124,11 @@ export default function SwiperBoss({ listBoss, selectBoss }) {
                   <Typography
                     sx={{
                       fontFamily: "Elden Ring",
-                      fontSize: "1.6em",
+                      fontSize: "1.9em",
                       color: "lightgray",
                       position: "absolute",
                       textShadow: "3px 3px #000",
+                      textAlign: "left",
                     }}
                   >
                     {boss}

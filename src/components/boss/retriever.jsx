@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Box, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { Box } from "@mui/material";
 import SwiperBoss from "./swiper";
 import Loading from "../loading";
+import BossBarChart from "./barchart";
 
 const bossSheetID = import.meta.env.VITE_SHEET_ID_BOSS;
 
@@ -35,7 +36,7 @@ export default function BossRetriever() {
 
   useEffect(() => {
     setLoading(true);
-    console.log("useEffect");
+
     console.log(selectedboss);
     fetch(sheetURL)
       .then((response) => response.text())
@@ -82,19 +83,29 @@ export default function BossRetriever() {
   }
 
   return (
-    <div>
-      <SwiperBoss listBoss={bosslist} selectBoss={setSelectedBoss} />
-      {loading ? (
-        <Loading />
-      ) : (
-        holomem.map((name, index) => {
-          return (
-            <h2 key={index} style={{ color: "white" }}>
-              {name}: {deaths[index]}
-            </h2>
-          );
-        })
-      )}
-    </div>
+    <Box
+      sx={{
+        width: "95%",
+        height: "100%",
+        ml: "auto",
+        mr: "auto",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          borderRadius: "15px",
+          width: "100%",
+          gap: "10px",
+          height: "50%",
+        }}
+      >
+        <SwiperBoss listBoss={bosslist} selectBoss={setSelectedBoss} />
+      </Box>
+
+      <BossBarChart holomem={holomem} deaths={deaths} />
+    </Box>
   );
 }
